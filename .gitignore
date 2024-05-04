@@ -1,0 +1,20 @@
+#Intellij files
+out/
+.idea/
+*.iml
+
+#Gradle
+.gradle/
+
+#Eclipse
+bin/
+.settings/
+.classpath
+.project
+
+#Forge gradle
+run/
+build/
+
+#LOTRBP
+libs/LOTR_UpdatedLangFiles/
