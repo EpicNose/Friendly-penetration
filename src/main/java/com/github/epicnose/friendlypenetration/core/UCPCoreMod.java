@@ -8,7 +8,7 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import com.github.epicnose.friendlypenetration.core.patches.base.Patcher;
 import com.github.epicnose.friendlypenetration.core.patches.base.Patcher.LoadingPhase;
 
-@IFMLLoadingPlugin.TransformerExclusions(value = {"io.gitlab.dwarfyassassin.lotrucp.core"})
+@IFMLLoadingPlugin.TransformerExclusions(value = {"com.github.epicnose.friendlypenetration.core"})
 @IFMLLoadingPlugin.MCVersion(value = "1.7.10")
 public class UCPCoreMod implements IFMLLoadingPlugin {
 
@@ -17,7 +17,7 @@ public class UCPCoreMod implements IFMLLoadingPlugin {
     private static List<Patcher> modPatches = new ArrayList<Patcher>();
 
     static {
-        System.out.println("LOTR-UCP: Found core mod.");
+        System.out.println("[FR]LOTR-FP: Found core mod.");
     }
 
     @Override
@@ -59,7 +59,7 @@ public class UCPCoreMod implements IFMLLoadingPlugin {
             }
         }
 
-        UCPCoreMod.log.info("Loaded " + i + " mod patches.");
+        UCPCoreMod.log.info("[FR]Loaded " + i + " mod patches.");
 
         modPatches.clear();
     }

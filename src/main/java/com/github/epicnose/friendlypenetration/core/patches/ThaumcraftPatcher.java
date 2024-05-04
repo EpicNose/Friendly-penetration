@@ -61,7 +61,7 @@ public class ThaumcraftPatcher extends ModPatcher {
                 insList.add(new VarInsnNode(Opcodes.ALOAD, 0));//this
                 insList.add(new FieldInsnNode(Opcodes.GETFIELD, "lotr/common/LOTRBannerProtection$2", "val$entityplayer", "Lnet/minecraft/entity/player/EntityPlayer;")); //get player
                 insList.add(new VarInsnNode(Opcodes.ALOAD, 1));//banner
-                insList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "io/gitlab/dwarfyassassin/lotrucp/core/hooks/ThaumcraftHooks", "thaumcraftGolemBannerProtection", "(Lnet/minecraft/entity/player/EntityPlayer;Llotr/common/entity/item/LOTREntityBanner;)Llotr/common/LOTRBannerProtection$ProtectType;", false)); //call our hook
+                insList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "com/github/epicnose/frendlypenetration/core/hooks/ThaumcraftHooks", "thaumcraftGolemBannerProtection", "(Lnet/minecraft/entity/player/EntityPlayer;Llotr/common/entity/item/LOTREntityBanner;)Llotr/common/LOTRBannerProtection$ProtectType;", false)); //call our hook
                 
                 
                 insList.add(new InsnNode(Opcodes.DUP)); //Duplicate hook result

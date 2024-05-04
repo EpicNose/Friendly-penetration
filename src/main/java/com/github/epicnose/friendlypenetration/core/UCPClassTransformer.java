@@ -31,7 +31,7 @@ public class UCPClassTransformer implements IClassTransformer {
                 ClassReader classReader = new ClassReader(classBytes);
                 classReader.accept(classNode, 0);
 
-                UCPCoreMod.log.info("Running patcher " + patcher.getName() + " for " + name);
+                UCPCoreMod.log.info("[FR]Running patcher " + patcher.getName() + " for " + name);
                 patcher.run(name, classNode);
 
                 ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
@@ -42,7 +42,7 @@ public class UCPClassTransformer implements IClassTransformer {
 
         if(ran) {
             UCPCoreMod.activePatches.removeIf(patcher -> patcher.isDone());
-            if(UCPCoreMod.activePatches.isEmpty()) UCPCoreMod.log.info("Ran all active patches.");
+            if(UCPCoreMod.activePatches.isEmpty()) UCPCoreMod.log.info("[FR]GAGAGARan all active patches.");
         }
 
         return classBytes;

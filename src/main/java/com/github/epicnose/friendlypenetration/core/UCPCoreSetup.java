@@ -13,7 +13,7 @@ public class UCPCoreSetup implements IFMLCallHook {
 
     @Override
     public Void call() throws Exception {
-        UCPCoreMod.log = LogManager.getLogger("LOTR-UCP");
+        UCPCoreMod.log = LogManager.getLogger("LOTR-FP");
 
         UCPCoreMod.registerPatcher(new FMLPatcher());
 //        UCPCoreMod.registerPatcher(new BotaniaPatcher());

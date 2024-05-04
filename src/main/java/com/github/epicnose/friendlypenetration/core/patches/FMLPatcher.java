@@ -34,14 +34,14 @@ public class FMLPatcher extends Patcher {
                     InsnList insList = new InsnList();
                     insList.add(new VarInsnNode(Opcodes.ALOAD, 0));
                     insList.add(new FieldInsnNode(Opcodes.GETFIELD, "cpw/mods/fml/common/FMLModContainer", "modMetadata", "Lcpw/mods/fml/common/ModMetadata;"));
-                    insList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "io/gitlab/dwarfyassassin/lotrucp/core/hooks/PreMCHooks", "forgeLoadOrderHook", "(Lcpw/mods/fml/common/ModMetadata;)V", false));
+                    insList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "com/github/epicnose/friendlypenetration/core/hooks/PreMCHooks", "forgeLoadOrderHook", "(Lcpw/mods/fml/common/ModMetadata;)V", false));
                     method.instructions.insert(fieldNode, insList);
                     break;
                 }
             }
         }
 
-        UCPCoreMod.log.info("Patched the FML dependency loader.");
+        UCPCoreMod.log.info("[FR]Patched the FML dependency loader.");
     }
 
     private void patchLoader(ClassNode classNode) {
@@ -54,13 +54,13 @@ public class FMLPatcher extends Patcher {
                 MethodInsnNode methodNode = (MethodInsnNode) node;
 
                 if(methodNode.name.equals("copyOf") && methodNode.owner.equals("com/google/common/collect/ImmutableList")) {
-                    MethodInsnNode insertNode = new MethodInsnNode(Opcodes.INVOKESTATIC, "io/gitlab/dwarfyassassin/lotrucp/core/hooks/PreMCHooks", "postFMLLoad", "()V", false);
+                    MethodInsnNode insertNode = new MethodInsnNode(Opcodes.INVOKESTATIC, "com/github/epicnose/friendlypenetration/core/hooks/PreMCHooks", "postFMLLoad", "()V", false);
                     method.instructions.insert(methodNode.getNext(), insertNode);
                     break;
                 }
             }
         }
 
-        UCPCoreMod.log.info("Patched the FML loader.");
+        UCPCoreMod.log.info("[FR]Patched the FML loader.");
     }
 }

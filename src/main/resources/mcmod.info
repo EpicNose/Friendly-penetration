@@ -1,12 +1,12 @@
 [
 {
-  "modid": "LOTR-UCP",
-  "name": "LOTR Unofficial Compatibility Patch",
-  "description": "Fixes various compatibility bug with LOTR mod.",
+  "modid": "friendlypenetration",
+  "name": "LOTR Friendly penetration",
+  "description": "Friendly penetration.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "https://gitlab.com/DwarfyAssassin/lotrucp",
-  "authorList": ["DwarfyAssassin"],
+  "url": "",
+  "authorList": ["Epic_Nose"],
   "credits": "Vinyarion for teaching me the basics or core modding. DragonAPI for having lot's of usefull ASM examples on their github."
 }
 ]

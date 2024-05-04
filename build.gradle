@@ -33,7 +33,7 @@ minecraft {
 
 jar {
     manifest {
-        attributes 'FMLCorePlugin': 'io.gitlab.dwarfyassassin.lotrucp.core.UCPCoreMod'
+        attributes 'FMLCorePlugin': 'com.github.epicnose.friendlypenetration.core.UCPCoreMod'
         attributes 'FMLCorePluginContainsFMLMod': 'true'
     }
 }
