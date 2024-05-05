@@ -52,7 +52,9 @@ public class ThaumcraftPatcher extends ModPatcher {
                 
                 LabelNode endLabel = new LabelNode();
                 LabelNode popLabel = new LabelNode();
-                
+
+
+
                 insList.add(new VarInsnNode(Opcodes.ALOAD, 0));//this
                 insList.add(new FieldInsnNode(Opcodes.GETFIELD, "lotr/common/LOTRBannerProtection$2", "val$entityplayer", "Lnet/minecraft/entity/player/EntityPlayer;")); //get player
                 insList.add(new TypeInsnNode(Opcodes.INSTANCEOF, "net/minecraftforge/common/util/FakePlayer")); //instanceof fake player if true put 1 on stack else put 0 on stack

@@ -28,5 +28,14 @@ public class ASMUtils {
             list.remove(prevNode);
         }
     }
+    public static AbstractInsnNode getLastOpcode(InsnList li, int opcode) {
+        AbstractInsnNode ret = null;
+        for (int i = 0; i < li.size(); i++) {
+            AbstractInsnNode ain = li.get(i);
+            if (ain.getOpcode() == opcode)
+                ret = ain;
+        }
+        return ret;
+    }
 
 }

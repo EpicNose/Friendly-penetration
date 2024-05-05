@@ -2,6 +2,8 @@ package com.github.epicnose.friendlypenetration.core.patches;
 
 import com.github.epicnose.friendlypenetration.core.UCPCoreMod;
 //import jdk.internal.org.objectweb.asm.tree.InsnNode;
+import cpw.mods.fml.common.FMLLog;
+import lotr.common.util.LOTRLog;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
 import com.github.epicnose.friendlypenetration.core.patches.base.ModPatcher;
@@ -29,16 +31,24 @@ public class LOTRPatcher extends ModPatcher {
         MethodNode method = ASMUtils.findMethod(classNode, "onUpdate", "func_70071_h_", "()V");;
         if(method == null) return;
         UCPCoreMod.log.info("[FR]wuhuqifei1");
-        VarInsnNode vnode = new VarInsnNode(Opcodes.ALOAD, 5);
-        UCPCoreMod.log.info("5号节点"+vnode.toString());
+
+
+//        AbstractInsnNode ain = ASMUtils.getLastOpcode(method.instructions, Opcodes.RETURN);
+//        InsnList instructions = new InsnList();
+//        instructions.add(new FieldInsnNode(Opcodes.GETSTATIC, "lotr/common/util/LOTRLog", "logger", "Lorg/apache/logging/log4j/Logger;")); // 获取 LOTRLog 类的 logger 字段
+//        instructions.add(new LdcInsnNode("targetbroke")); // 加载字符串 "1222"
+//        instructions.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE, "org/apache/logging/log4j/Logger", "info", "(Ljava/lang/String;)V", true)); // 调用 Logger 的 info 方法
+//        method.instructions.insertBefore(ain,instructions);
+
         for(AbstractInsnNode node : method.instructions.toArray()) {
             UCPCoreMod.log.info(node.getOpcode());
 //            UCPCoreMod.log.info("[FR]wuhuqifei2");
             if(node.getOpcode() == Opcodes.GETFIELD){
+//                ASMUtils.getLast
                 FieldInsnNode fieldInsnNode = (FieldInsnNode) node;
                 UCPCoreMod.log.info("name"+fieldInsnNode.name);
                 UCPCoreMod.log.info("owner"+fieldInsnNode.owner);
-//                if(fieldInsnNode.name.equals("entityHit")){
+//                if(fieldInsnNode.name.equals("entityHit")){    //混淆的
 //                    UCPCoreMod.log.info("[FR]wuhuqifei3");
 //                }
 
@@ -46,34 +56,42 @@ public class LOTRPatcher extends ModPatcher {
                     UCPCoreMod.log.info("[FR]wuhuqifei4");
                     if(node.getPrevious().getPrevious().getPrevious().getPrevious().getOpcode() == Opcodes.IFNULL){   //targetpos
                         UCPCoreMod.log.info("[FR]wuhuqifei5");
-//                        AbstractInsnNode
+
                         JumpInsnNode jumpNode = (JumpInsnNode) node.getPrevious().getPrevious().getPrevious().getPrevious();  //在这个jumpNode前增加内容
+
 
                         InsnList instructions = new InsnList();
 
+
+
                         LabelNode label58 = new LabelNode();
                         LabelNode label59 = new LabelNode();
-//                        LabelNode label60 = new LabelNode();
-//                        LabelNode label61 = new LabelNode();
-//                        LabelNode label62 = new LabelNode();
-//                        LabelNode label63 = new LabelNode();
-//                        LabelNode label64 = new LabelNode();
-//                        LabelNode label65 = new LabelNode();
+                        LabelNode label60 = new LabelNode();
+                        LabelNode label61 = new LabelNode();
+                        LabelNode label62 = new LabelNode();
+                        LabelNode label63 = new LabelNode();
+                        LabelNode label64 = new LabelNode();
+                        LabelNode label65 = new LabelNode();
 //
-//                        LabelNode label66 = new LabelNode();
+                        LabelNode label66 = new LabelNode();
 
 
                         LabelNode label52 = new LabelNode();
                         instructions.add(new VarInsnNode(Opcodes.ALOAD, 5));
                         instructions.add(new JumpInsnNode(Opcodes.IFNULL, label52));
                         LabelNode label53 = new LabelNode();
-                        instructions.add(label53);
-                        instructions.add(new LineNumberNode(293, label53));
+//                        instructions.add(label53);
+//                        instructions.add(new LineNumberNode(293, label53));
                         instructions.add(new TypeInsnNode(Opcodes.NEW, "net/minecraft/util/MovingObjectPosition"));
                         instructions.add(new InsnNode(Opcodes.DUP));
                         instructions.add(new VarInsnNode(Opcodes.ALOAD, 5));
                         instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, "net/minecraft/util/MovingObjectPosition", "<init>", "(Lnet/minecraft/entity/Entity;)V", false));
                         instructions.add(new VarInsnNode(Opcodes.ASTORE, 5));
+
+                        //新建movingobject
+        instructions.add(new FieldInsnNode(Opcodes.GETSTATIC, "lotr/common/util/LOTRLog", "logger", "Lorg/apache/logging/log4j/Logger;")); // 获取 LOTRLog 类的 logger 字段
+        instructions.add(new LdcInsnNode("新建movingobject")); // 加载字符串 "1222"
+        instructions.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE, "org/apache/logging/log4j/Logger", "info", "(Ljava/lang/String;)V", true)); // 调用 Logger 的 info 方法
 
 
 
@@ -83,63 +101,88 @@ public class LOTRPatcher extends ModPatcher {
                         instructions.add(new JumpInsnNode(Opcodes.IFNULL, label58));
 
                         instructions.add(new VarInsnNode(Opcodes.ALOAD, 5));
-                        instructions.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/util/MovingObjectPosition", "entityHit", "Lnet/minecraft/entity/Entity;"));
-//                        instructions.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/util/MovingObjectPosition", "field_72308_g", "Lnet/minecraft/entity/Entity;"));
+//                        instructions.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/util/MovingObjectPosition", "entityHit", "Lnet/minecraft/entity/Entity;"));
+                        instructions.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/util/MovingObjectPosition", "field_72308_g", "Lnet/minecraft/entity/Entity;"));
 
                         instructions.add(new VarInsnNode(Opcodes.ASTORE, 444));
 ////
 //                        // label60
-//                        instructions.add(label60);
-//                        instructions.add(new VarInsnNode(Opcodes.ALOAD, 444));
-//                        instructions.add(new JumpInsnNode(Opcodes.IFNULL, label58));
+                        instructions.add(label60);
+                        instructions.add(new VarInsnNode(Opcodes.ALOAD, 444));
+                        instructions.add(new JumpInsnNode(Opcodes.IFNULL, label58));
+
+                        instructions.add(new FieldInsnNode(Opcodes.GETSTATIC, "lotr/common/util/LOTRLog", "logger", "Lorg/apache/logging/log4j/Logger;")); // 获取 LOTRLog 类的 logger 字段
+                        instructions.add(new LdcInsnNode("entityHit不为空")); // 加载字符串 "1222"
+                        instructions.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE, "org/apache/logging/log4j/Logger", "info", "(Ljava/lang/String;)V", true)); // 调用 Logger 的 info 方法
+
+
 ////
 //                        // label61
-//                        instructions.add(label61);
-//                        instructions.add(new VarInsnNode(Opcodes.ALOAD, 444));
-//                        instructions.add(new TypeInsnNode(Opcodes.INSTANCEOF, "lotr/common/entity/npc/LOTREntityNPC"));
-//                        instructions.add(new JumpInsnNode(Opcodes.IFNE, label58));
+                        instructions.add(label61);
+                        instructions.add(new VarInsnNode(Opcodes.ALOAD, 444));
+                        instructions.add(new TypeInsnNode(Opcodes.INSTANCEOF, "lotr/common/entity/npc/LOTREntityNPC"));
+                        instructions.add(new JumpInsnNode(Opcodes.IFEQ, label58));
+
+                        instructions.add(new FieldInsnNode(Opcodes.GETSTATIC, "lotr/common/util/LOTRLog", "logger", "Lorg/apache/logging/log4j/Logger;")); // 获取 LOTRLog 类的 logger 字段
+                        instructions.add(new LdcInsnNode("444 是lotrentity")); // 加载字符串 "1222"
+                        instructions.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE, "org/apache/logging/log4j/Logger", "info", "(Ljava/lang/String;)V", true)); // 调用 Logger 的 info 方法
+
+
 ////
 //                        // label62
-//                        instructions.add(label62);
-//                        instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
-//                        instructions.add(new FieldInsnNode(Opcodes.GETFIELD, "lotr/common/entity/projectile/LOTREntityProjectileBase", "shootingEntity", "Lnet/minecraft/entity/Entity;"));
-//                        instructions.add(new TypeInsnNode(Opcodes.INSTANCEOF, "lotr/common/entity/npc/LOTREntityNPC"));
-//                        instructions.add(new JumpInsnNode(Opcodes.IFEQ, label58));
-//
+                        instructions.add(label62);
+                        instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
+                        instructions.add(new FieldInsnNode(Opcodes.GETFIELD, "lotr/common/entity/projectile/LOTREntityProjectileBase", "shootingEntity", "Lnet/minecraft/entity/Entity;"));
+                        instructions.add(new TypeInsnNode(Opcodes.INSTANCEOF, "lotr/common/entity/npc/LOTREntityNPC"));
+                        instructions.add(new JumpInsnNode(Opcodes.IFEQ, label58));
+
+                        instructions.add(new FieldInsnNode(Opcodes.GETSTATIC, "lotr/common/util/LOTRLog", "logger", "Lorg/apache/logging/log4j/Logger;")); // 获取 LOTRLog 类的 logger 字段
+                        instructions.add(new LdcInsnNode("shootingEntity 是lotrentity")); // 加载字符串 "1222"
+                        instructions.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE, "org/apache/logging/log4j/Logger", "info", "(Ljava/lang/String;)V", true)); // 调用 Logger 的 info 方法
+
 //                        // label63
-//                        instructions.add(label63);
-//                        instructions.add(new VarInsnNode(Opcodes.ALOAD, 444));
-//                        instructions.add(new TypeInsnNode(Opcodes.CHECKCAST, "lotr/common/entity/npc/LOTREntityNPC"));
-//                        instructions.add(new VarInsnNode(Opcodes.ASTORE, 666));
+                        instructions.add(label63);
+                        instructions.add(new VarInsnNode(Opcodes.ALOAD, 444));
+                        instructions.add(new TypeInsnNode(Opcodes.CHECKCAST, "lotr/common/entity/npc/LOTREntityNPC"));
+                        instructions.add(new VarInsnNode(Opcodes.ASTORE, 666));
 //
 ////                         label64
-//                        instructions.add(label64);
-//                        instructions.add(new VarInsnNode(Opcodes.ALOAD, 2));
-//                        instructions.add(new FieldInsnNode(Opcodes.GETFIELD, "lotr/common/entity/projectile/LOTREntityProjectileBase", "shootingEntity", "Lnet/minecraft/entity/Entity;"));
-//                        instructions.add(new TypeInsnNode(Opcodes.CHECKCAST, "lotr/common/entity/npc/LOTREntityNPC"));
-//                        instructions.add(new VarInsnNode(Opcodes.ASTORE, 669));
-//
+                        instructions.add(label64);
+                        instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
+                        instructions.add(new FieldInsnNode(Opcodes.GETFIELD, "lotr/common/entity/projectile/LOTREntityProjectileBase", "shootingEntity", "Lnet/minecraft/entity/Entity;"));
+                        instructions.add(new TypeInsnNode(Opcodes.CHECKCAST, "lotr/common/entity/npc/LOTREntityNPC"));
+                        instructions.add(new VarInsnNode(Opcodes.ASTORE, 669));
+
+                        instructions.add(new FieldInsnNode(Opcodes.GETSTATIC, "lotr/common/util/LOTRLog", "logger", "Lorg/apache/logging/log4j/Logger;")); // 获取 LOTRLog 类的 logger 字段
+                        instructions.add(new LdcInsnNode("hit shoot都为生物")); // 加载字符串 "1222"
+                        instructions.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE, "org/apache/logging/log4j/Logger", "info", "(Ljava/lang/String;)V", true)); // 调用 Logger 的 info 方法
 ////                         label65
-//                        instructions.add(label65);
-//                        instructions.add(new VarInsnNode(Opcodes.ALOAD, 666));
-//                        instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "lotr/common/entity/npc/LOTREntityNPC", "getFaction", "()Llotr/common/fac/LOTRFaction;", false));
-//                        instructions.add(new VarInsnNode(Opcodes.ALOAD, 669));
-//                        instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "lotr/common/entity/npc/LOTREntityNPC", "getFaction", "()Llotr/common/fac/LOTRFaction;", false));
-//                        instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "lotr/common/fac/LOTRFaction", "isBadRelation", "(Llotr/common/fac/LOTRFaction;)Z", false));
-//                        instructions.add(new JumpInsnNode(Opcodes.IFNE, label58));
+                        instructions.add(label65);
+                        instructions.add(new VarInsnNode(Opcodes.ALOAD, 666));
+                        instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "lotr/common/entity/npc/LOTREntityNPC", "getFaction", "()Llotr/common/fac/LOTRFaction;", false));
+                        instructions.add(new VarInsnNode(Opcodes.ALOAD, 669));
+                        instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "lotr/common/entity/npc/LOTREntityNPC", "getFaction", "()Llotr/common/fac/LOTRFaction;", false));
+                        instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "lotr/common/fac/LOTRFaction", "isBadRelation", "(Llotr/common/fac/LOTRFaction;)Z", false));
+                        instructions.add(new JumpInsnNode(Opcodes.IFNE, label58));
+                        // 调用 System.out.println 方法
+
 //
 //                        // label66
 //                        instructions.add(label66);
-//                        instructions.add(new InsnNode(Opcodes.ACONST_NULL));
-//                        instructions.add(new VarInsnNode(Opcodes.ASTORE, 5));
+                        instructions.add(new InsnNode(Opcodes.ACONST_NULL));
+                        instructions.add(new VarInsnNode(Opcodes.ASTORE, 5));
+//                        instructions.add(new FrameNode(Opcodes.F_SAME, 0, null, 0, null));
+//                        instructions.add(new FieldInsnNode(Opcodes.GETSTATIC, "lotr/common/util/LOTRLog", "logger", "Lorg/apache/logging/log4j/Logger;")); // 获取 LOTRLog 类的 logger 字段
+//                        instructions.add(new LdcInsnNode("执行badrelation设为空")); // 加载字符串 "1222"
+//                        instructions.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE, "org/apache/logging/log4j/Logger", "info", "(Ljava/lang/String;)V", true)); // 调用 Logger 的 info 方法
 
                         // label58
 
                         instructions.add(label58);
 
                         instructions.add(label52);
-
-                        method.instructions.insertBefore(jumpNode.getPrevious().getPrevious().getPrevious().getPrevious(),instructions);//4个
+                        method.instructions.insertBefore(jumpNode.getPrevious().getPrevious(),instructions);//2个 +4
+//                        method.instructions.insertBefore(jumpNode.getPrevious().getPrevious().getPrevious().getPrevious(),instructions);//4个
 //                        method.instructions.insertBefore(jumpNode.getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious().getPrevious(),instructions);//4个
 //                        jumpNode.getPrevious()
                         UCPCoreMod.log.info("[FR]wuhuqifei6");
