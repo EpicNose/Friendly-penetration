@@ -17,7 +17,7 @@ public class UCPCoreMod implements IFMLLoadingPlugin {
     private static List<Patcher> modPatches = new ArrayList<Patcher>();
 
     static {
-        System.out.println("[FR]LOTR-FP: Found core mod.");
+        System.out.println("[FP]LOTR-FP: Found core mod.");
     }
 
     @Override
@@ -59,7 +59,7 @@ public class UCPCoreMod implements IFMLLoadingPlugin {
             }
         }
 
-        UCPCoreMod.log.info("[FR]Loaded " + i + " mod patches.");
+        UCPCoreMod.log.info("[FP]Loaded " + i + " mod patches.");
 
         modPatches.clear();
     }

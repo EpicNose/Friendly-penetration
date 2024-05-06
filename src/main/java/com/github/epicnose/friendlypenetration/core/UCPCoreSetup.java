@@ -1,13 +1,10 @@
 package com.github.epicnose.friendlypenetration.core;
 
 import java.util.Map;
+
+import com.github.epicnose.friendlypenetration.core.patches.*;
 import org.apache.logging.log4j.LogManager;
 import cpw.mods.fml.relauncher.IFMLCallHook;
-import com.github.epicnose.friendlypenetration.core.patches.BotaniaPatcher;
-import com.github.epicnose.friendlypenetration.core.patches.FMLPatcher;
-import com.github.epicnose.friendlypenetration.core.patches.LOTRPatcher;
-import com.github.epicnose.friendlypenetration.core.patches.ScreenshotEnhancedPatcher;
-import com.github.epicnose.friendlypenetration.core.patches.ThaumcraftPatcher;
 
 public class UCPCoreSetup implements IFMLCallHook {
 
@@ -20,7 +17,7 @@ public class UCPCoreSetup implements IFMLCallHook {
 //        UCPCoreMod.registerPatcher(new ScreenshotEnhancedPatcher());
 //        UCPCoreMod.registerPatcher(new ThaumcraftPatcher());
         UCPCoreMod.registerPatcher(new LOTRPatcher());
-
+//        UCPCoreMod.registerPatcher(new LOTR2Patcher());
         return null;
     }
 

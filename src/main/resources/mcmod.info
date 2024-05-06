@@ -7,6 +7,6 @@
   "mcversion": "${mcversion}",
   "url": "",
   "authorList": ["Epic_Nose"],
-  "credits": "Vinyarion for teaching me the basics or core modding. DragonAPI for having lot's of usefull ASM examples on their github."
+  "credits": "Based on lotrucpcore"
 }
 ]

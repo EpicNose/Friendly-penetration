@@ -2,11 +2,13 @@ package com.github.epicnose.friendlypenetration.core.patches;
 
 import com.github.epicnose.friendlypenetration.core.UCPCoreMod;
 //import jdk.internal.org.objectweb.asm.tree.InsnNode;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLLog;
 
 import lotr.common.util.LOTRLog;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
 import com.github.epicnose.friendlypenetration.core.patches.base.ModPatcher;
 import com.github.epicnose.friendlypenetration.core.utils.ASMUtils;
@@ -14,16 +16,101 @@ import net.minecraftforge.classloading.FMLForgePlugin;
 import scala.tools.cmd.gen.AnyValReps;
 
 public class LOTRPatcher extends ModPatcher {
-
+    public static FieldInsnNode renderins;
     public LOTRPatcher() {
         super("LOTR", "lotr");
+
+//        this.classes.put("lotr.common.entity.npc.LOTREntityNPC",(classNode -> patchNPCArrowAttack(classNode)));
+
+
+//        this.classes.put("cpw/mods/fml/client/registry/RenderingRegistry",(classNode -> getRenderIns(classNode)));
 //        this.classes.put("lotr.common.item.LOTRValuableItems", (classNode) -> patchValuableToolMaterials(classNode));
 //        this.classes.put("lotr.common.enchant.LOTREnchantmentHelper", (classNode) -> patchLOTRNegateDamage(classNode));
 //        this.classes.put("lotr.client.render.tileentity.LOTRRenderArmorStand", (classNode) -> patchArmorStandRender(classNode));
 //        this.classes.put("lotr.common.block.LOTRBlockReplacement", (classNode) -> patchBlockReplacements(classNode));
-        this.classes.put("lotr.common.LOTRBannerProtection$2", (classNode) -> patchFakePlayerWarningMessage(classNode));
+//        this.classes.put("lotr.common.LOTRBannerProtection$2", (classNode) -> patchFakePlayerWarningMessage(classNode));
+
+        this.classes.put("lotr.client.LOTRClientProxy",(classNode -> patchClientRegistry(classNode)));
+        this.classes.put("lotr.common.entity.LOTREntities",(classNode -> patchEntityRegistry(classNode)));
+
+
         this.classes.put("lotr.common.entity.projectile.LOTREntityProjectileBase",(classNode -> patchFriendlyPenetration(classNode)));
+
+
+
     }
+
+
+
+
+    private void getRenderIns(ClassNode classNode){
+        this.renderins = new FieldInsnNode(Opcodes.GETSTATIC, "cpw/mods/fml/client/registry/RenderingRegistry", "INSTANCE", "Lcpw/mods/fml/client/registry/RenderingRegistry;");
+    }
+
+
+
+    private void patchEntityRegistry(ClassNode classNode){
+//        LOTREntities.registerEntity(LOTREntityArrow.class, "LOTRArrow", 2043, 64, 20, false);
+        MethodNode method = ASMUtils.findMethod(classNode, "registerEntities", "()V");
+        if(method == null) return;
+        AbstractInsnNode ain = ASMUtils.getLastOpcode(method.instructions, Opcodes.RETURN);
+
+        InsnList insList = new InsnList();
+
+        insList.add(new TypeInsnNode(Opcodes.NEW, "lotr/common/entity/LOTREntities"));
+        insList.add(new InsnNode(Opcodes.DUP));
+        insList.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, "lotr/common/entity/LOTREntities", "<init>", "()V", false));
+        insList.add(new LdcInsnNode(Type.getType("Lcom/github/epicnose/friendlypenetration/common/entity/item/LOTREntityArrow;")));
+        insList.add(new LdcInsnNode("LOTRArrow"));
+        insList.add(new IntInsnNode(Opcodes.BIPUSH, 2077)); // id
+        insList.add(new IntInsnNode(Opcodes.BIPUSH, 64)); // updateRange
+        insList.add(new IntInsnNode(Opcodes.BIPUSH, 20)); // updateFreq
+        insList.add(new InsnNode(Opcodes.ICONST_0)); // false (sendVelocityUpdates)
+        insList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "lotr/common/entity/LOTREntities", "registerEntity", "(Ljava/lang/Class;Ljava/lang/String;IIIZ)V", false));
+//        insList.add(new FieldInsnNode(Opcodes.GETSTATIC, "lotr/common/entity/LOTREntities", "INSTANCE", "Llotr/common/entity/LOTREntities;"));
+//        insList.add(new LdcInsnNode(Type.getType("Lcom/github/epicnose/friendlypenetration/common/entity/item/LOTREntityArrow;")));
+//        insList.add(new LdcInsnNode("LOTRArrow"));
+//        insList.add(new IntInsnNode(Opcodes.BIPUSH, 2077));
+//        insList.add(new IntInsnNode(Opcodes.BIPUSH, 64));
+//        insList.add(new IntInsnNode(Opcodes.BIPUSH, 20));
+//        insList.add(new InsnNode(Opcodes.ICONST_0)); // false
+//        insList.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "lotr/common/entity/LOTREntities", "registerEntity", "(Ljava/lang/Class;Ljava/lang/String;IIIZ)V", false));
+
+        method.instructions.insertBefore(ain,insList);
+        UCPCoreMod.log.info("[FP]patch LOTREntities lotrentityarrow registry");
+    }
+
+    private void patchClientRegistry(ClassNode classNode){
+        MethodNode method = ASMUtils.findMethod(classNode, "onLoad", "()V");
+        if(method == null) return;
+//        RenderingRegistry.registerEntityRenderingHandler(LOTREntityArrow.class, new LOTRRenderArrow());
+        AbstractInsnNode ain = ASMUtils.getLastOpcode(method.instructions, Opcodes.RETURN);
+
+        InsnList insList = new InsnList();
+//        if(renderins !=null){
+//            insList.add(new FieldInsnNode(Opcodes.GETSTATIC, "cpw/mods/fml/client/registry/RenderingRegistry", "INSTANCE", "Lcpw/mods/fml/client/registry/RenderingRegistry;"));
+//        }
+
+        insList.add(new TypeInsnNode(Opcodes.NEW, "cpw/mods/fml/client/registry/RenderingRegistry"));
+        insList.add(new InsnNode(Opcodes.DUP));
+        insList.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, "cpw/mods/fml/client/registry/RenderingRegistry", "<init>", "()V", false));
+        insList.add(new LdcInsnNode(Type.getType("Lcom/github/epicnose/friendlypenetration/common/entity/item/LOTREntityArrow;")));
+        insList.add(new TypeInsnNode(Opcodes.NEW, "com/github/epicnose/friendlypenetration/client/render/entity/LOTRRenderArrow"));
+        insList.add(new InsnNode(Opcodes.DUP));
+        insList.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, "com/github/epicnose/friendlypenetration/client/render/entity/LOTRRenderArrow", "<init>", "()V", false));
+        insList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "cpw/mods/fml/client/registry/RenderingRegistry", "registerEntityRenderingHandler", "(Ljava/lang/Class;Lnet/minecraft/client/renderer/entity/Render;)V", false));
+
+
+//        insList.add(new LdcInsnNode(Type.getType("Lcom/github/epicnose/friendlypenetration/common/entity/item/LOTREntityArrow;")));
+//        insList.add(new TypeInsnNode(Opcodes.NEW, "com/github/epicnose/friendlypenetration/client/render/entity/LOTRRenderArrow"));
+//        insList.add(new InsnNode(Opcodes.DUP));
+//        insList.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, "com/github/epicnose/friendlypenetration/client/render/entity/LOTRRenderArrow", "<init>", "()V", false));
+//        insList.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "cpw/mods/fml/client/registry/RenderingRegistry", "registerEntityRenderingHandler", "(Ljava/lang/Class;Lnet/minecraft/client/renderer/entity/Render;)V", false));
+
+        method.instructions.insertBefore(ain,insList);
+        UCPCoreMod.log.info("[FP]patch LOTRclientproxy lotrentityarrow registry");
+    }
+
 
 
     private void patchFriendlyPenetration(ClassNode classNode){
@@ -223,7 +310,7 @@ public class LOTRPatcher extends ModPatcher {
                 MethodInsnNode methodNode = (MethodInsnNode) node;
 //                FieldInsnNode fnode;
 //                fnode.name
-                if(methodNode.name.equals("getArmorModel") && methodNode.owner.equals("net/minecraftforge/client/ForgeHooksClient") && methodNode.desc.equals("(Lnet/minecraft/entity/EntityLivingBase;Lnet/minecraft/item/ItemStack;ILnet/minecraft/client/model/ModelBiped;)Lnet/minecraft/client/model/ModelBiped;")) {
+                if(methodNode.name.equals("getArmorModel") && methodNode.owner.equals("net/minecraft/client/renderer/ForgeHooksClient") && methodNode.desc.equals("(Lnet/minecraft/entity/EntityLivingBase;Lnet/minecraft/item/ItemStack;ILnet/minecraft/client/model/ModelBiped;)Lnet/minecraft/client/model/ModelBiped;")) {
                     AbstractInsnNode nullNode = methodNode.getPrevious().getPrevious().getPrevious().getPrevious();
                     
                     if(nullNode.getOpcode() == Opcodes.ACONST_NULL) {

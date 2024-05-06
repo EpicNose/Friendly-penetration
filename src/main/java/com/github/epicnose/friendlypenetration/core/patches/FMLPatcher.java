@@ -4,13 +4,7 @@ import com.github.epicnose.friendlypenetration.core.UCPCoreMod;
 import com.github.epicnose.friendlypenetration.core.patches.base.Patcher;
 import com.github.epicnose.friendlypenetration.core.utils.ASMUtils;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.tree.VarInsnNode;
+import org.objectweb.asm.tree.*;
 
 public class FMLPatcher extends Patcher {
 
@@ -19,6 +13,67 @@ public class FMLPatcher extends Patcher {
 
         this.classes.put("cpw.mods.fml.common.FMLModContainer", (classNode) -> patchModContainer(classNode));
         this.classes.put("cpw.mods.fml.common.Loader", (classNode) -> patchLoader(classNode));
+
+        this.classes.put("lotr.common.entity.npc.LOTREntityNPC",(classNode -> patchNPCArrowAttack(classNode)));
+    }
+
+
+    private void patchNPCArrowAttack(ClassNode classNode){
+//        UCPCoreMod.log.info("[FP]:"+"arrowin");
+        MethodNode method = ASMUtils.findMethod(classNode, "npcArrowAttack", "(Lnet/minecraft/entity/EntityLivingBase;F)V");
+        int count=0;
+//        UCPCoreMod.log.info("counttag0:"+count);
+        if(method == null) return;
+        AbstractInsnNode ain = ASMUtils.getLastOpcode(method.instructions, Opcodes.RETURN);
+
+        InsnList instructions = new InsnList();
+
+        instructions.add(new VarInsnNode(Opcodes.ALOAD, 0)); // Load 'this' onto the stack
+        instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "lotr/common/entity/npc/LOTREntityNPC", "getHeldItem", "()Lnet/minecraft/item/ItemStack;", false)); // Call 'getHeldItem' method
+        instructions.add(new VarInsnNode(Opcodes.ASTORE, 3)); // Store the result in local variable 3
+
+
+        method.instructions.insertBefore(ain,instructions);
+
+
+
+
+
+
+
+
+
+//        insList.add(new FieldInsnNode(Opcodes.GETSTATIC, "lotr/common/util/LOTRLog", "logger", "Lorg/apache/logging/log4j/Logger;")); // 获取 LOTRLog 类的 logger 字段
+//        insList.add(new LdcInsnNode("射了宝贝")); // 加载字符串 "1222"
+//        insList.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE, "org/apache/logging/log4j/Logger", "info", "(Ljava/lang/String;)V", true)); // 调用 Logger 的 info 方法
+//        method.instructions.clear();
+//        method.instructions.add(new InsnNode(Opcodes.RETURN));
+        //移除第四行之后的Ins
+
+//       LineNumberNode
+//        InsnList reserveList = new InsnList();
+//        for(int i=0;i<method.instructions.size();i++){
+//            AbstractInsnNode node = method.instructions.get(i);
+//            UCPCoreMod.log.info("[arrow]:"+node.getOpcode());
+//
+//            if(node.getOpcode() == Opcodes.FSTORE){
+//                VarInsnNode vnode = (VarInsnNode) node;
+//                method.instructions.clear();
+//                method.instructions=reserveList;
+////                method.instructions.add(vnode, reserveList);
+////                UCPCoreMod.log.info("匹配到fstore:"+node.getOpcode());
+//                break;
+//            }
+//            reserveList.add(node);
+//        }
+
+//        method.instructions=reserveList; //直接覆盖
+
+//        for(AbstractInsnNode node : method.instructions.toArray()) {
+////            method.instructions.indexOf()
+//        }
+//        UCPCoreMod.log.info("方法总行数:"+count);
+//        UCPCoreMod.log.info("[FP]patch npcarrowattack");
     }
 
     private void patchModContainer(ClassNode classNode) {
