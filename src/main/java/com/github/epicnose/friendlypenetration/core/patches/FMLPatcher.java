@@ -109,7 +109,7 @@ public class FMLPatcher extends Patcher {
             instructions.add(new InsnNode(Opcodes.FMUL));
             instructions.add(new VarInsnNode(Opcodes.FLOAD, 5));
             instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, "com/github/epicnose/friendlypenetration/common/entity/item/LOTREntityArrow", "<init>", "(Lnet/minecraft/world/World;Lnet/minecraft/entity/EntityLivingBase;Lnet/minecraft/entity/EntityLivingBase;Lnet/minecraft/item/ItemStack;FF)V", false));
-            instructions.add(new VarInsnNode(Opcodes.ASTORE, 6));
+            instructions.add(new VarInsnNode(Opcodes.ASTORE, 10));
 
             LabelNode label4 = new LabelNode();
             instructions.add(label4);
@@ -145,7 +145,7 @@ public class FMLPatcher extends Patcher {
 //            instructions.add(new FieldInsnNode(Opcodes.GETFIELD, "lotr/common/entity/npc/LOTREntityNPC", "worldObj", "Lnet/minecraft/world/World;"));
             instructions.add(new FieldInsnNode(Opcodes.GETFIELD, "lotr/common/entity/npc/LOTREntityNPC", "field_70170_p", "Lnet/minecraft/world/World;"));
 
-            instructions.add(new VarInsnNode(Opcodes.ALOAD, 6));
+            instructions.add(new VarInsnNode(Opcodes.ALOAD, 10));
 //            instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "net/minecraft/world/World", "spawnEntityInWorld", "(Lnet/minecraft/entity/Entity;)Z", false));
             instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "net/minecraft/world/World", "func_72838_d", "(Lnet/minecraft/entity/Entity;)Z", false));
 

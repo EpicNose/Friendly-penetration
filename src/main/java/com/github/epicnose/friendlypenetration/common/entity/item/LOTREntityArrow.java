@@ -4,10 +4,12 @@ import com.github.epicnose.friendlypenetration.core.UCPCoreMod;
 import lotr.common.enchant.LOTREnchantment;
 import lotr.common.enchant.LOTREnchantmentHelper;
 import lotr.common.entity.projectile.LOTREntityProjectileBase;
+import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,6 +21,12 @@ public class LOTREntityArrow extends LOTREntityProjectileBase  {
 //    public LOTREntityArrow(World p_i1753_1_) {
 //        super(p_i1753_1_);
 //    }
+    public int xTile = -1;
+    public int yTile = -1;
+    public int zTile = -1;
+    public Block inTile;
+
+    public int inData = 0;
     private int knockbackStrength;
     private double damage = 2.0D;
     public void setDamage(double p_70239_1_)
@@ -70,31 +78,73 @@ public class LOTREntityArrow extends LOTREntityProjectileBase  {
         super(world);
     }
 
-   @Override
+    public ItemStack getProjectileItem() {
+//        return dataWatcher.getWatchableObjectItemStack(18);
+        return new ItemStack(Items.arrow);
+    }
+    public void setProjectileItem(ItemStack item) {
+        dataWatcher.updateObject(18, new ItemStack(Items.arrow));
+    }
+    public void setIsCritical(boolean flag) {
+        dataWatcher.updateObject(17, (byte) (flag ? 1 : 0));
+    }
+    @Override
     public void entityInit() {
         dataWatcher.addObject(17, (byte) 0);
         dataWatcher.addObjectByDataType(18, 5);
     }
 
-    @Override
-    protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
-
-    }
-
-    @Override
-    protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
-
-    }
-//    @Override
-//    public void setProjectileItem(ItemStack item) {
-////        UCPCoreMod.log.info("覆写的方法被调用了");
-////        ItemStack
-//        dataWatcher.updateObject(18, new ItemStack(Items.arrow));
-//
+//   @Override
+//    public void entityInit() {
+//        dataWatcher.addObject(17, (byte) 0);
+//        dataWatcher.addObjectByDataType(18, 5);
 //    }
 
+    @Override
+    protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
+    }
+
+    @Override
+    protected void writeEntityToNBT(NBTTagCompound nbt) {
+        nbt.setInteger("xTile", xTile);
+        nbt.setInteger("yTile", yTile);
+        nbt.setInteger("zTile", zTile);
+        nbt.setInteger("inTile", Block.getIdFromBlock(inTile));
+        nbt.setByte("inData", (byte) inData);
+        nbt.setByte("shake", (byte) shake);
+        nbt.setByte("inGround", (byte) (inGround ? 1 : 0));
+        nbt.setByte("pickup", (byte) canBePickedUp);
+        nbt.setByte("Knockback", (byte) knockbackStrength);
+        if (getProjectileItem() != null) {
+            nbt.setTag("ProjectileItem", getProjectileItem().writeToNBT(new NBTTagCompound()));
+        }
+    }
+
+
     public LOTREntityArrow(World world, EntityLivingBase entityliving, EntityLivingBase target,ItemStack itemStack, float charge, float inaccuracy) {
-        super(world, entityliving, target, itemStack, charge, inaccuracy);
+//        super(world, entityliving, target, itemStack, charge, inaccuracy);
+        super(world);
+        setProjectileItem(new ItemStack(Items.arrow));
+        shootingEntity = entityliving;
+        if (entityliving instanceof EntityPlayer) {
+            canBePickedUp = 1;
+        }
+        setSize(0.5f, 0.5f);
+        posY = entityliving.posY + entityliving.getEyeHeight() - 0.1;
+        double d = target.posX - entityliving.posX;
+        double d1 = target.posY + target.getEyeHeight() - 0.7 - posY;
+        double d2 = target.posZ - entityliving.posZ;
+        double d3 = MathHelper.sqrt_double(d * d + d2 * d2);
+        if (d3 >= 1.0E-7) {
+            float f = (float) (Math.atan2(d2, d) * 180.0 / 3.141592653589793) - 90.0f;
+            float f1 = (float) -(Math.atan2(d1, d3) * 180.0 / 3.141592653589793);
+            double d4 = d / d3;
+            double d5 = d2 / d3;
+            setLocationAndAngles(entityliving.posX + d4, posY, entityliving.posZ + d5, f, f1);
+            yOffset = 0.0f;
+            float d6 = (float) d3 * 0.2f;
+            setThrowableHeading(d, d1 + d6, d2, charge * 1.5f, inaccuracy);
+        }
     }
 //    public LOTREntityArrow(World world, EntityLivingBase entityliving, EntityLivingBase target,ItemStack itemStack, float charge, float inaccuracy) {
 //        super(world, entityliving, target, itemStack, charge, inaccuracy);

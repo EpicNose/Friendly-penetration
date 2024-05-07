@@ -87,13 +87,18 @@ public class LOTRPatcher extends ModPatcher {
         AbstractInsnNode ain = ASMUtils.getLastOpcode(method.instructions, Opcodes.RETURN);
 
         InsnList insList = new InsnList();
-//        if(renderins !=null){
-//            insList.add(new FieldInsnNode(Opcodes.GETSTATIC, "cpw/mods/fml/client/registry/RenderingRegistry", "INSTANCE", "Lcpw/mods/fml/client/registry/RenderingRegistry;"));
-//        }
 
-        insList.add(new TypeInsnNode(Opcodes.NEW, "cpw/mods/fml/client/registry/RenderingRegistry"));
-        insList.add(new InsnNode(Opcodes.DUP));
-        insList.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, "cpw/mods/fml/client/registry/RenderingRegistry", "<init>", "()V", false));
+
+//        insList.add(new TypeInsnNode(Opcodes.NEW, "cpw/mods/fml/client/registry/RenderingRegistry"));
+//        insList.add(new InsnNode(Opcodes.DUP));
+//        insList.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, "cpw/mods/fml/client/registry/RenderingRegistry", "<init>", "()V", false));
+//        insList.add(new LdcInsnNode(Type.getType("Lcom/github/epicnose/friendlypenetration/common/entity/item/LOTREntityArrow;")));
+//        insList.add(new TypeInsnNode(Opcodes.NEW, "com/github/epicnose/friendlypenetration/client/render/entity/LOTRRenderArrow"));
+//        insList.add(new InsnNode(Opcodes.DUP));
+//        insList.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, "com/github/epicnose/friendlypenetration/client/render/entity/LOTRRenderArrow", "<init>", "()V", false));
+//        insList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "cpw/mods/fml/client/registry/RenderingRegistry", "registerEntityRenderingHandler", "(Ljava/lang/Class;Lnet/minecraft/client/renderer/entity/Render;)V", false));
+//
+
         insList.add(new LdcInsnNode(Type.getType("Lcom/github/epicnose/friendlypenetration/common/entity/item/LOTREntityArrow;")));
         insList.add(new TypeInsnNode(Opcodes.NEW, "com/github/epicnose/friendlypenetration/client/render/entity/LOTRRenderArrow"));
         insList.add(new InsnNode(Opcodes.DUP));
@@ -101,11 +106,6 @@ public class LOTRPatcher extends ModPatcher {
         insList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "cpw/mods/fml/client/registry/RenderingRegistry", "registerEntityRenderingHandler", "(Ljava/lang/Class;Lnet/minecraft/client/renderer/entity/Render;)V", false));
 
 
-//        insList.add(new LdcInsnNode(Type.getType("Lcom/github/epicnose/friendlypenetration/common/entity/item/LOTREntityArrow;")));
-//        insList.add(new TypeInsnNode(Opcodes.NEW, "com/github/epicnose/friendlypenetration/client/render/entity/LOTRRenderArrow"));
-//        insList.add(new InsnNode(Opcodes.DUP));
-//        insList.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, "com/github/epicnose/friendlypenetration/client/render/entity/LOTRRenderArrow", "<init>", "()V", false));
-//        insList.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "cpw/mods/fml/client/registry/RenderingRegistry", "registerEntityRenderingHandler", "(Ljava/lang/Class;Lnet/minecraft/client/renderer/entity/Render;)V", false));
 
         method.instructions.insertBefore(ain,insList);
         UCPCoreMod.log.info("[FP]patch LOTRclientproxy lotrentityarrow registry");
