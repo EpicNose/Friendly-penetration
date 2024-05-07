@@ -24,7 +24,7 @@ public class UCPClassTransformer implements IClassTransformer {
         boolean ran = false;
 
         for(Patcher patcher : UCPCoreMod.activePatches) {
-            UCPCoreMod.log.info("[FR]尝试 " + patcher.getName() + " for " + name);
+//            UCPCoreMod.log.info("[FR]尝试 " + patcher.getName() + " for " + name);
             if(patcher.canRun(name)) {
                 ran = true;
 

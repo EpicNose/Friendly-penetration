@@ -1,5 +1,6 @@
 package com.github.epicnose.friendlypenetration.common.entity.item;
 
+import com.github.epicnose.friendlypenetration.core.UCPCoreMod;
 import lotr.common.enchant.LOTREnchantment;
 import lotr.common.enchant.LOTREnchantmentHelper;
 import lotr.common.entity.projectile.LOTREntityProjectileBase;
@@ -7,6 +8,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
@@ -68,9 +70,10 @@ public class LOTREntityArrow extends LOTREntityProjectileBase  {
         super(world);
     }
 
-    @Override
-    protected void entityInit() {
-
+   @Override
+    public void entityInit() {
+        dataWatcher.addObject(17, (byte) 0);
+        dataWatcher.addObjectByDataType(18, 5);
     }
 
     @Override
@@ -82,10 +85,20 @@ public class LOTREntityArrow extends LOTREntityProjectileBase  {
     protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
 
     }
+//    @Override
+//    public void setProjectileItem(ItemStack item) {
+////        UCPCoreMod.log.info("覆写的方法被调用了");
+////        ItemStack
+//        dataWatcher.updateObject(18, new ItemStack(Items.arrow));
+//
+//    }
 
-    public LOTREntityArrow(World world, EntityLivingBase entityliving, EntityLivingBase target, ItemStack item, float charge, float inaccuracy) {
-        super(world, entityliving, target, item, charge, inaccuracy);
+    public LOTREntityArrow(World world, EntityLivingBase entityliving, EntityLivingBase target,ItemStack itemStack, float charge, float inaccuracy) {
+        super(world, entityliving, target, itemStack, charge, inaccuracy);
     }
+//    public LOTREntityArrow(World world, EntityLivingBase entityliving, EntityLivingBase target,ItemStack itemStack, float charge, float inaccuracy) {
+//        super(world, entityliving, target, itemStack, charge, inaccuracy);
+//    }
 
     public LOTREntityArrow(World world, EntityLivingBase entityliving, ItemStack item, float charge) {
         super(world, entityliving, item, charge);
