@@ -43,7 +43,7 @@ public class UCPClassTransformer implements IClassTransformer {
 
         if(ran) {
             UCPCoreMod.activePatches.removeIf(patcher -> patcher.isDone());
-            if(UCPCoreMod.activePatches.isEmpty()) UCPCoreMod.log.info("[FP]GAGAGARan all active patches.");
+            if(UCPCoreMod.activePatches.isEmpty()) UCPCoreMod.log.info("[FP]Ran all active patches.");
         }
 
         return classBytes;

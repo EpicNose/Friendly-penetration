@@ -13,7 +13,9 @@ import org.lwjgl.opengl.GL12;
 import java.util.Random;
 
 public class LOTRRenderArrow extends Render {
-    private static final ResourceLocation arrowTextures = new ResourceLocation("textures/entity/arrow.png");
+    private static final ResourceLocation arrowTextures = new ResourceLocation("friendlypenetration:entity/arrow.png");
+//    private static final ResourceLocation arrowTextures = new ResourceLocation("textures/entity/arrow.png");
+
     private static final String __OBFID = "CL_00000978";
     private int randomint=new Random().nextInt(4);
     /**

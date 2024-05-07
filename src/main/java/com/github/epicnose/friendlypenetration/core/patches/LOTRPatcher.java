@@ -30,8 +30,8 @@ public class LOTRPatcher extends ModPatcher {
 //        this.classes.put("lotr.common.block.LOTRBlockReplacement", (classNode) -> patchBlockReplacements(classNode));
 //        this.classes.put("lotr.common.LOTRBannerProtection$2", (classNode) -> patchFakePlayerWarningMessage(classNode));
 
-        this.classes.put("lotr.client.LOTRClientProxy",(classNode -> patchClientRegistry(classNode)));
-        this.classes.put("lotr.common.entity.LOTREntities",(classNode -> patchEntityRegistry(classNode)));
+//        this.classes.put("lotr.client.LOTRClientProxy",(classNode -> patchClientRegistry(classNode)));
+//        this.classes.put("lotr.common.entity.LOTREntities",(classNode -> patchEntityRegistry(classNode)));
 
 
         this.classes.put("lotr.common.entity.projectile.LOTREntityProjectileBase",(classNode -> patchFriendlyPenetration(classNode)));
