@@ -433,4 +433,12 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
         prevRotationPitch = rotationPitch = (float) (Math.atan2(d1, f3) * 180.0 / 3.141592653589793);
         ticksInGround = 0;
     }
+    @Override
+    public int maxTicksInGround() {
+//		return canBePickedUp == 1 ? 6000 : 1200;
+        return canBePickedUp == 1 ? 6000 : 120;
+    }
+
+
+
 }
