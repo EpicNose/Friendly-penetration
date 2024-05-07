@@ -149,7 +149,7 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
                             if (!hitlotrnpc.getFaction().isBadRelation(source.getFaction())) {
 //								System.out.println("test");
                                 movingobjectposition = null;
-                                System.out.println("movingobjecttest");
+//                                System.out.println("movingobjecttest");
                             }
                         }
                     }
@@ -158,15 +158,15 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
 
             if (movingobjectposition != null) {
                 Entity hitEntity = movingobjectposition.entityHit;
-                System.out.println("似乎没有执行");
+//                System.out.println("似乎没有执行");
                 if (hitEntity != null) {
-                    System.out.println("tag1");
+//                    System.out.println("tag1");
                     if (hitEntity instanceof LOTREntityNPC) {
-                        System.out.println("tag2");
+//                        System.out.println("tag2");
                         if(shootingEntity!=null){
                             if (shootingEntity instanceof LOTREntityNPC) {
 
-                                System.out.println("tag3");
+//                                System.out.println("tag3");
                                 LOTREntityNPC hitlotrnpc = (LOTREntityNPC) hitEntity;
                                 LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
                                 if (!hitlotrnpc.getFaction().isBadRelation(source.getFaction())) {
@@ -175,7 +175,7 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
                                     movingobjectposition = null;
 
                                     hitEntity=null;
-                                    System.out.println("取消这个hitentity");
+//                                    System.out.println("取消这个hitentity");
                                 }
                             }
                         }else{
