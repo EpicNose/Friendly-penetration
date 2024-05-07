@@ -163,20 +163,29 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
                     System.out.println("tag1");
                     if (hitEntity instanceof LOTREntityNPC) {
                         System.out.println("tag2");
-                        System.out.println("name"+shootingEntity.getCommandSenderName());
-                        if (shootingEntity instanceof LOTREntityNPC) {
+                        if(shootingEntity!=null){
+                            if (shootingEntity instanceof LOTREntityNPC) {
 
-                            System.out.println("tag3");
-                            LOTREntityNPC hitlotrnpc = (LOTREntityNPC) hitEntity;
-                            LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
-                            if (!hitlotrnpc.getFaction().isBadRelation(source.getFaction())) {
+                                System.out.println("tag3");
+                                LOTREntityNPC hitlotrnpc = (LOTREntityNPC) hitEntity;
+                                LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
+                                if (!hitlotrnpc.getFaction().isBadRelation(source.getFaction())) {
 //								System.out.println("test");
-                                movingobjectposition = null;
-                                movingobjectposition.entityHit=null;
-                                hitEntity=null;
-                                System.out.println("取消这个hitentity");
+                                    movingobjectposition.entityHit=null;
+                                    movingobjectposition = null;
+
+                                    hitEntity=null;
+                                    System.out.println("取消这个hitentity");
+                                }
                             }
+                        }else{
+                            movingobjectposition.entityHit=null;
+                            movingobjectposition = null;
+
+                            hitEntity=null;
                         }
+//                        System.out.println("在地上吗"+shootingEntity.onGround);
+
                     }
                 }
 //                if (hitEntity != null) {
@@ -240,25 +249,28 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
                         ticksInAir = 0;
                     }
                 } else {
-                    xTile = movingobjectposition.blockX;
-                    yTile = movingobjectposition.blockY;
-                    zTile = movingobjectposition.blockZ;
-                    inTile = worldObj.getBlock(xTile, yTile, zTile);
-                    inData = worldObj.getBlockMetadata(xTile, yTile, zTile);
-                    motionX = (float) (movingobjectposition.hitVec.xCoord - posX);
-                    motionY = (float) (movingobjectposition.hitVec.yCoord - posY);
-                    motionZ = (float) (movingobjectposition.hitVec.zCoord - posZ);
-                    float f2 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
-                    posX -= motionX / f2 * 0.05;
-                    posY -= motionY / f2 * 0.05;
-                    posZ -= motionZ / f2 * 0.05;
-                    worldObj.playSoundAtEntity(this, getImpactSound(), 1.0f, 1.2f / (rand.nextFloat() * 0.2f + 0.9f));
-                    inGround = true;
-                    shake = 7;
-                    setIsCritical(false);
-                    if (inTile.getMaterial() != Material.air) {
-                        inTile.onEntityCollidedWithBlock(worldObj, xTile, yTile, zTile, this);
+                    if(movingobjectposition!=null){
+                        xTile = movingobjectposition.blockX;
+                        yTile = movingobjectposition.blockY;
+                        zTile = movingobjectposition.blockZ;
+                        inTile = worldObj.getBlock(xTile, yTile, zTile);
+                        inData = worldObj.getBlockMetadata(xTile, yTile, zTile);
+                        motionX = (float) (movingobjectposition.hitVec.xCoord - posX);
+                        motionY = (float) (movingobjectposition.hitVec.yCoord - posY);
+                        motionZ = (float) (movingobjectposition.hitVec.zCoord - posZ);
+                        float f2 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
+                        posX -= motionX / f2 * 0.05;
+                        posY -= motionY / f2 * 0.05;
+                        posZ -= motionZ / f2 * 0.05;
+                        worldObj.playSoundAtEntity(this, getImpactSound(), 1.0f, 1.2f / (rand.nextFloat() * 0.2f + 0.9f));
+                        inGround = true;
+                        shake = 7;
+                        setIsCritical(false);
+                        if (inTile.getMaterial() != Material.air) {
+                            inTile.onEntityCollidedWithBlock(worldObj, xTile, yTile, zTile, this);
+                        }
                     }
+
                 }
             }
             if (getIsCritical()) {
