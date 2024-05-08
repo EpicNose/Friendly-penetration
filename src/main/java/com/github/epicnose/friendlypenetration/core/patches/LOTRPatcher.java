@@ -34,8 +34,8 @@ public class LOTRPatcher extends ModPatcher {
 //        this.classes.put("lotr.common.entity.LOTREntities",(classNode -> patchEntityRegistry(classNode)));
 
 
-        this.classes.put("lotr.common.entity.projectile.LOTREntityProjectileBase",(classNode -> patchFriendlyPenetration(classNode)));
-
+//        this.classes.put("lotr.common.entity.projectile.LOTREntityProjectileBase",(classNode -> patchFriendlyPenetration(classNode)));
+//重制版这里也有bug
 
 
     }

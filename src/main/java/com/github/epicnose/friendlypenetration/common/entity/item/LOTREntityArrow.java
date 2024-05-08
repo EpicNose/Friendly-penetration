@@ -387,6 +387,54 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
             setThrowableHeading(d, d1 + d6, d2, charge * 1.5f, inaccuracy);
         }
     }
+    public LOTREntityArrow(World world, EntityLivingBase entityliving, EntityLivingBase target, float charge, float inaccuracy) {
+        super(world);
+        setProjectileItem(new ItemStack(Items.arrow));
+        shootingEntity = entityliving;
+        if (entityliving instanceof EntityPlayer) {
+            canBePickedUp = 1;
+        }
+        setSize(0.5f, 0.5f);
+        posY = entityliving.posY + entityliving.getEyeHeight() - 0.1;
+        double d = target.posX - entityliving.posX;
+        double d1 = target.posY + target.getEyeHeight() - 0.7 - posY;
+        double d2 = target.posZ - entityliving.posZ;
+        double d3 = MathHelper.sqrt_double(d * d + d2 * d2);
+        if (d3 >= 1.0E-7) {
+            float f = (float) (Math.atan2(d2, d) * 180.0 / 3.141592653589793) - 90.0f;
+            float f1 = (float) -(Math.atan2(d1, d3) * 180.0 / 3.141592653589793);
+            double d4 = d / d3;
+            double d5 = d2 / d3;
+            setLocationAndAngles(entityliving.posX + d4, posY, entityliving.posZ + d5, f, f1);
+            yOffset = 0.0f;
+            float d6 = (float) d3 * 0.2f;
+            setThrowableHeading(d, d1 + d6, d2, charge * 1.5f, inaccuracy);
+        }
+    }
+    public LOTREntityArrow(EntityLivingBase entityliving, EntityLivingBase target, float charge, float inaccuracy) {
+        super(entityliving.worldObj);
+        setProjectileItem(new ItemStack(Items.arrow));
+        shootingEntity = entityliving;
+        if (entityliving instanceof EntityPlayer) {
+            canBePickedUp = 1;
+        }
+        setSize(0.5f, 0.5f);
+        posY = entityliving.posY + entityliving.getEyeHeight() - 0.1;
+        double d = target.posX - entityliving.posX;
+        double d1 = target.posY + target.getEyeHeight() - 0.7 - posY;
+        double d2 = target.posZ - entityliving.posZ;
+        double d3 = MathHelper.sqrt_double(d * d + d2 * d2);
+        if (d3 >= 1.0E-7) {
+            float f = (float) (Math.atan2(d2, d) * 180.0 / 3.141592653589793) - 90.0f;
+            float f1 = (float) -(Math.atan2(d1, d3) * 180.0 / 3.141592653589793);
+            double d4 = d / d3;
+            double d5 = d2 / d3;
+            setLocationAndAngles(entityliving.posX + d4, posY, entityliving.posZ + d5, f, f1);
+            yOffset = 0.0f;
+            float d6 = (float) d3 * 0.2f;
+            setThrowableHeading(d, d1 + d6, d2, charge * 1.5f, inaccuracy);
+        }
+    }
 
     public LOTREntityArrow(World world, EntityLivingBase entityliving, ItemStack item, float charge) {
         super(world, entityliving, item, charge);
