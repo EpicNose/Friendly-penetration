@@ -2,6 +2,8 @@ package com.github.epicnose.friendlypenetration.common.entity.item;
 
 import com.github.epicnose.friendlypenetration.core.UCPCoreMod;
 import cpw.mods.fml.common.FMLLog;
+import lotr.common.LOTRLevelData;
+import lotr.common.LOTRPlayerData;
 import lotr.common.enchant.LOTREnchantment;
 import lotr.common.enchant.LOTREnchantmentHelper;
 import lotr.common.entity.npc.LOTREntityNPC;
@@ -14,6 +16,8 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityTracker;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -21,9 +25,11 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.play.server.S0DPacketCollectItem;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 
 import java.util.List;
 
@@ -189,21 +195,31 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
 //                        FMLLog.info("1");
                         if(hitEntity instanceof EntityPlayer ){
 //                            FMLLog.info("2");
+                            EntityPlayer p =(EntityPlayer)hitEntity;
                             if(shootingEntity!=null){
 //                                FMLLog.info("3");
                                 if (shootingEntity instanceof LOTREntityNPC) {
 //                                    FMLLog.info("4");
 //                                    EntityPlayer hitlotrnpc = (LOTREntityNPC) hitEntity;
                                     LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
-                                    if(source.hiredNPCInfo.getHiringPlayerUUID()!=null)
-                                    if(source.hiredNPCInfo.getHiringPlayerUUID().equals(hitEntity.getUniqueID())){
-//                                        FMLLog.info("5");
-                                        movingobjectposition.entityHit=null;
-                                        movingobjectposition = null;
-                                        hitEntity=null;
-//                                        FMLLog.info("击中的是生存玩家设为Null");
-//                                        System.out.println();
+                                    LOTRPlayerData lpd = LOTRLevelData.getData(p);
+                                    if(lpd.getPledgeFaction()!=null)
+                                    if(!source.getFaction().isBadRelation(lpd.getPledgeFaction())){
+                                            movingobjectposition.entityHit=null;
+                                            movingobjectposition = null;
+                                            hitEntity=null;
                                     }
+//                                    if(source.hiredNPCInfo.getHiringPlayerUUID()!=null){
+//                                        if(source.hiredNPCInfo.getHiringPlayerUUID().equals(hitEntity.getUniqueID())){
+////                                        FMLLog.info("5");
+//                                            movingobjectposition.entityHit=null;
+//                                            movingobjectposition = null;
+//                                            hitEntity=null;
+////                                        FMLLog.info("击中的是生存玩家设为Null");
+////                                        System.out.println();
+//                                        }
+//                                    }
+
                                 }
                             }
                         }else if(hitEntity.riddenByEntity!=null){
@@ -237,9 +253,11 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
                                         if (shootingEntity instanceof LOTREntityNPC) {
 //                                            FMLLog.info("13");
 //                                    EntityPlayer hitlotrnpc = (LOTREntityNPC) hitEntity;
+                                            EntityPlayer p =(EntityPlayer) rider;
+                                            LOTRPlayerData lpd=LOTRLevelData.getData(p);
                                             LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
-                                            if(source.hiredNPCInfo.getHiringPlayerUUID()!=null)
-                                                if(source.hiredNPCInfo.getHiringPlayerUUID().equals(rider.getUniqueID())){
+                                            if(lpd.getPledgeFaction()!=null)
+                                                if(!source.getFaction().isBadRelation(lpd.getPledgeFaction())){
 //                                                    FMLLog.info("14");
                                                     movingobjectposition.entityHit=null;
                                                     movingobjectposition = null;
