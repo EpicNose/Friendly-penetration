@@ -1,6 +1,7 @@
 package com.github.epicnose.friendlypenetration.common.entity.item;
 
 import com.github.epicnose.friendlypenetration.core.UCPCoreMod;
+import cpw.mods.fml.common.FMLLog;
 import lotr.common.enchant.LOTREnchantment;
 import lotr.common.enchant.LOTREnchantmentHelper;
 import lotr.common.entity.npc.LOTREntityNPC;
@@ -173,9 +174,7 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
 //								System.out.println("test");
                                     movingobjectposition.entityHit=null;
                                     movingobjectposition = null;
-
                                     hitEntity=null;
-//                                    System.out.println("取消这个hitentity");
                                 }
                             }
                         }else{
@@ -186,20 +185,79 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
                         }
 //                        System.out.println("在地上吗"+shootingEntity.onGround);
 
+                    }else{ //被击中的不是lotrentitynpc  那就再判断是不是主人玩家 或者 击中坐骑的主人是不是友善派系
+//                        FMLLog.info("1");
+                        if(hitEntity instanceof EntityPlayer ){
+//                            FMLLog.info("2");
+                            if(shootingEntity!=null){
+//                                FMLLog.info("3");
+                                if (shootingEntity instanceof LOTREntityNPC) {
+//                                    FMLLog.info("4");
+//                                    EntityPlayer hitlotrnpc = (LOTREntityNPC) hitEntity;
+                                    LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
+                                    if(source.hiredNPCInfo.getHiringPlayerUUID()!=null)
+                                    if(source.hiredNPCInfo.getHiringPlayerUUID().equals(hitEntity.getUniqueID())){
+//                                        FMLLog.info("5");
+                                        movingobjectposition.entityHit=null;
+                                        movingobjectposition = null;
+                                        hitEntity=null;
+//                                        FMLLog.info("击中的是生存玩家设为Null");
+//                                        System.out.println();
+                                    }
+                                }
+                            }
+                        }else if(hitEntity.riddenByEntity!=null){
+//                            FMLLog.info("6");
+                            Entity rider = hitEntity.riddenByEntity;
+                            if(rider instanceof LOTREntityNPC){ //骑手是npc
+//                                FMLLog.info("7");
+                                LOTREntityNPC riderhit = (LOTREntityNPC) rider;
+                                if(shootingEntity!=null){
+//                                    FMLLog.info("8");
+                                    if (shootingEntity instanceof LOTREntityNPC) {
+//                                        FMLLog.info("9");
+//
+                                        LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
+                                        if (!riderhit.getFaction().isBadRelation(source.getFaction())) {
+//                                            FMLLog.info("10");
+//								System.out.println("test");
+                                            movingobjectposition.entityHit=null;
+                                            movingobjectposition = null;
+                                            hitEntity=null;
+//                                            FMLLog.info("击中的是友军Npc坐骑");
+//                                            System.out.println();
+                                        }
+                                    }
+                                }
+                            }else if(rider instanceof EntityPlayer){ //骑手是玩家
+//                                FMLLog.info("11");
+//                                if(hitEntity instanceof EntityPlayer ){
+                                    if(shootingEntity!=null){
+//                                        FMLLog.info("12");
+                                        if (shootingEntity instanceof LOTREntityNPC) {
+//                                            FMLLog.info("13");
+//                                    EntityPlayer hitlotrnpc = (LOTREntityNPC) hitEntity;
+                                            LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
+                                            if(source.hiredNPCInfo.getHiringPlayerUUID()!=null)
+                                                if(source.hiredNPCInfo.getHiringPlayerUUID().equals(rider.getUniqueID())){
+//                                                    FMLLog.info("14");
+                                                    movingobjectposition.entityHit=null;
+                                                    movingobjectposition = null;
+                                                    hitEntity=null;
+//                                                    FMLLog.info("击中的是玩家坐骑");
+//                                                    System.out.println();
+                                                }
+                                        }
+                                    }
+                            }
+
+                        }
+//                        else{
+//
+//                        }
                     }
                 }
-//                if (hitEntity != null) {
-//                    if (hitEntity instanceof LOTREntityNPC) {
-//                        if (shootingEntity instanceof LOTREntityNPC) {
-//                            LOTREntityNPC hitlotrnpc = (LOTREntityNPC) hitEntity;
-//                            LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
-//                            if (!hitlotrnpc.getFaction().isBadRelation(source.getFaction())) {
-////								System.out.println("test");
-//                                hitEntity = null;
-//                            }
-//                        }
-//                    }
-//                }
+
                 if (hitEntity != null) {
                     ItemStack itemstack = getProjectileItem();
                     int damageInt = MathHelper.ceiling_double_int(getBaseImpactDamage(hitEntity, itemstack));
