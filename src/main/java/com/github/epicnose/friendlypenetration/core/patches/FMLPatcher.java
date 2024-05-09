@@ -31,9 +31,9 @@ public class FMLPatcher extends Patcher {
         MethodNode methodNode = ASMUtils.findMethod(classNode, "npcArrowAttack", "(Lnet/minecraft/entity/EntityLivingBase;F)V");
 //        methodNode.localVariables.clear();
         for(int i =0;i<methodNode.localVariables.size();i++){
-            UCPCoreMod.log.info(i+"号localNode"+"desc:"+methodNode.localVariables.get(i).desc);
-            UCPCoreMod.log.info(i+"号localNode"+"name:"+methodNode.localVariables.get(i).name);
-            UCPCoreMod.log.info(i+"号localNode"+"sig:"+methodNode.localVariables.get(i).signature);
+//            UCPCoreMod.log.info(i+"号localNode"+"desc:"+methodNode.localVariables.get(i).desc);
+//            UCPCoreMod.log.info(i+"号localNode"+"name:"+methodNode.localVariables.get(i).name);
+//            UCPCoreMod.log.info(i+"号localNode"+"sig:"+methodNode.localVariables.get(i).signature);
 //            methodNode.localVariables.remove(i);
         }
         methodNode.instructions.clear();

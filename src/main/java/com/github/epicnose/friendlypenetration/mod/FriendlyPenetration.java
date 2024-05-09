@@ -21,12 +21,16 @@ public class FriendlyPenetration {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
+
         System.out.println("[FriendlyPenetration]友军穿透加载 MadeBy Epic_Nose");
         LOTREntities.registerEntity(LOTREntityArrow.class, "LOTRArrow", 1988, 64, 20, false);
+//        proxy.onLoad();
     }
     @Mod.EventHandler
     public void preload(FMLPreInitializationEvent event) {
-        RenderingRegistry.registerEntityRenderingHandler(LOTREntityArrow.class, new LOTRRenderArrow());
+        proxy.preInit();
+//        RenderingRegistry.registerEntityRenderingHandler(LOTREntityArrow.class, new LOTRRenderArrow());
     }
+
 
 }

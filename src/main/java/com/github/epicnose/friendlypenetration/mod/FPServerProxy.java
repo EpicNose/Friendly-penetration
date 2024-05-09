@@ -7,8 +7,8 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-public class FPServerProxy {
-    public void onInit(FMLInitializationEvent event) {
+public class FPServerProxy implements CommonProxy {
+    @Override
+    public void preInit() {
     }
-
 }
