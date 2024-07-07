@@ -63,6 +63,11 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
     }
 
     @Override
+    public float getSpeedReduction() {
+        return 0.9999F;
+    }
+
+    @Override
     public float getBaseImpactDamage(Entity var1, ItemStack var2) {
 //        if (!isThrowingAxe()) {
 //            return 0.0f;
@@ -385,7 +390,7 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
             motionX *= f4;
             motionY *= f4;
             motionZ *= f4;
-            motionY -= 0.05000000074505806;
+            motionY -= 0.050000000074505806; //原来是 0.05
             setPosition(posX, posY, posZ);
             func_145775_I();
         }
@@ -460,7 +465,7 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
             setLocationAndAngles(entityliving.posX + d4, posY, entityliving.posZ + d5, f, f1);
             yOffset = 0.0f;
             float d6 = (float) d3 * 0.2f;
-            setThrowableHeading(d, d1 + d6, d2, charge * 1.5f, inaccuracy);
+            setThrowableHeading(d, d1 + d6, d2, charge * 1.5f , inaccuracy); //这里charge *1.5 去掉了这个倍数
         }
     }
     public LOTREntityArrow(World world, EntityLivingBase entityliving, EntityLivingBase target, float charge, float inaccuracy) {
@@ -484,7 +489,7 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
             setLocationAndAngles(entityliving.posX + d4, posY, entityliving.posZ + d5, f, f1);
             yOffset = 0.0f;
             float d6 = (float) d3 * 0.2f;
-            setThrowableHeading(d, d1 + d6, d2, charge * 1.5f, inaccuracy);
+            setThrowableHeading(d, d1 + d6, d2, charge * 1.5f, inaccuracy);//这里charge *1.5 去掉了这个倍数
         }
     }
     public LOTREntityArrow(EntityLivingBase entityliving, EntityLivingBase target, float charge, float inaccuracy) {
@@ -550,7 +555,7 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
         d1 += rand.nextGaussian() * 0.0075 * f1;
         d2 += rand.nextGaussian() * 0.0075 * f1;
         motionX = d *= f;
-        motionY = d1 *= f;
+        motionY = d1 *= f*0.6; //这里对y乘了个0.6
         motionZ = d2 *= f;
         float f3 = MathHelper.sqrt_double(d * d + d2 * d2);
         prevRotationYaw = rotationYaw = (float) (Math.atan2(d, d2) * 180.0 / 3.141592653589793);
