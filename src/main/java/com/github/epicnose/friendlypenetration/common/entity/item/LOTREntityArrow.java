@@ -151,22 +151,22 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
                 }
             }
             //NoseVersion 2023/1/5 21:16
-            if (movingobjectposition != null) {
-                Entity hitEntity = movingobjectposition.entityHit;
-                if (hitEntity != null) {
-                    if (hitEntity instanceof LOTREntityNPC) {
-                        if (shootingEntity instanceof LOTREntityNPC) {
-                            LOTREntityNPC hitlotrnpc = (LOTREntityNPC) hitEntity;
-                            LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
-                            if (!hitlotrnpc.getFaction().isBadRelation(source.getFaction())) {
-//								System.out.println("test");
-                                movingobjectposition = null;
-//                                System.out.println("movingobjecttest");
-                            }
-                        }
-                    }
-                }
-            }
+//            if (movingobjectposition != null) {
+//                Entity hitEntity = movingobjectposition.entityHit;
+//                if (hitEntity != null) {
+//                    if (hitEntity instanceof LOTREntityNPC) {
+//                        if (shootingEntity instanceof LOTREntityNPC) {
+//                            LOTREntityNPC hitlotrnpc = (LOTREntityNPC) hitEntity;
+//                            LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
+//                            if (!hitlotrnpc.getFaction().isBadRelation(source.getFaction()) ) {
+////								System.out.println("test");
+//                                movingobjectposition = null;
+////                                System.out.println("movingobjecttest");
+//                            }
+//                        }
+//                    }
+//                }
+//            }
 
             if (movingobjectposition != null) {
                 Entity hitEntity = movingobjectposition.entityHit;
@@ -181,7 +181,9 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
 //                                System.out.println("tag3");
                                 LOTREntityNPC hitlotrnpc = (LOTREntityNPC) hitEntity;
                                 LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
-                                if (!hitlotrnpc.getFaction().isBadRelation(source.getFaction())) {
+//                                & !(hitlotrnpc.getFaction().isNeutral(source.getFaction()))
+                                if (hitlotrnpc.getFaction().isGoodRelation(source.getFaction())  ) {
+//                                if (!hitlotrnpc.getFaction().isBadRelation(source.getFaction())  ) {
 //								System.out.println("test");
                                     movingobjectposition.entityHit=null;
                                     movingobjectposition = null;
@@ -209,7 +211,8 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
                                     LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
                                     LOTRPlayerData lpd = LOTRLevelData.getData(p);
                                     if(lpd.getPledgeFaction()!=null)
-                                    if(!source.getFaction().isBadRelation(lpd.getPledgeFaction())){
+//                                    if(!source.getFaction().isBadRelation(lpd.getPledgeFaction()) & !source.getFaction().isNeutral(lpd.getPledgeFaction())){
+                                    if(source.getFaction().isGoodRelation(lpd.getPledgeFaction()) ){
                                             movingobjectposition.entityHit=null;
                                             movingobjectposition = null;
                                             hitEntity=null;

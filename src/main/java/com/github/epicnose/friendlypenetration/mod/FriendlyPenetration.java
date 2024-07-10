@@ -12,7 +12,7 @@ import lotr.common.entity.LOTREntities;
 
 @Mod(modid = "friendlypenetration", name = "LOTR Friendly penetration",version = FriendlyPenetration.VERSION, dependencies = "after:lotr")
 public class FriendlyPenetration {
-    public static final String VERSION = "alpha-1.0.3";
+    public static final String VERSION = "alpha-1.0.4";
 
 
     @SidedProxy(serverSide = "com.github.epicnose.friendlypenetration.mod.FPServerProxy", clientSide = "com.github.epicnose.friendlypenetration.mod.FPClientProxy")
