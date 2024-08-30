@@ -3,9 +3,11 @@ package com.github.epicnose.friendlypenetration.common.entity.item;
 import com.github.epicnose.friendlypenetration.core.UCPCoreMod;
 import cpw.mods.fml.common.FMLLog;
 import lotr.common.LOTRLevelData;
+import lotr.common.LOTRMod;
 import lotr.common.LOTRPlayerData;
 import lotr.common.enchant.LOTREnchantment;
 import lotr.common.enchant.LOTREnchantmentHelper;
+import lotr.common.entity.LOTREntityInvasionSpawner;
 import lotr.common.entity.npc.LOTREntityNPC;
 import lotr.common.entity.projectile.LOTREntityProjectileBase;
 import lotr.common.item.LOTRItemBow;
@@ -569,6 +571,52 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
     public int maxTicksInGround() {
 //		return canBePickedUp == 1 ? 6000 : 1200;
         return canBePickedUp == 1 ? 6000 : 120;
+    }
+
+
+    @Override
+    public void onKillEntity(EntityLivingBase entity) {
+        super.onKillEntity(entity);
+        if(this.shootingEntity !=null) {
+            if (this.shootingEntity instanceof LOTREntityNPC) {
+                LOTREntityNPC shooter = (LOTREntityNPC) this.shootingEntity;
+                if(shooter.hiredNPCInfo!=null)
+                shooter.hiredNPCInfo.onKillEntity(entity);
+//            if (shooter.lootsExtraCoins() && !worldObj.isRemote && entity instanceof LOTREntityNPC && ((LOTREntityNPC) entity).canDropRares() && rand.nextInt(2) == 0) {
+//                int coins = shooter.getRandomCoinDropAmount();
+//                coins = (int) (coins * MathHelper.randomFloatClamp(rand, 1.0f, 3.0f));
+//                if (coins > 0) {
+//                    entity.dropItem(LOTRMod.silverCoin, coins);
+//                }
+//            }
+                LOTREntityInvasionSpawner invasion;
+                if(entity instanceof LOTREntityNPC){
+                    LOTREntityNPC target = (LOTREntityNPC)entity;
+                    if(shooter.hiredNPCInfo.getHiringPlayer() != null){
+                        EntityPlayer entityplayer = shooter.hiredNPCInfo.getHiringPlayer();
+                        if (!worldObj.isRemote && target.isInvasionSpawned()  && (invasion = LOTREntityInvasionSpawner.locateInvasionNearby(this, target.getInvasionID())) != null) {
+                            invasion.addPlayerKill(entityplayer);
+//                            if (damagesource.getEntity() == entityplayer) {
+//                                invasion.setWatchingInvasion((EntityPlayerMP) entityplayer, true);
+//                            }
+                        }
+                    }
+
+
+                }
+
+            }
+
+
+        }
+//        hiredNPCInfo.onKillEntity(entity);
+//        if (lootsExtraCoins() && !worldObj.isRemote && entity instanceof LOTREntityNPC && ((LOTREntityNPC) entity).canDropRares() && rand.nextInt(2) == 0) {
+//            int coins = getRandomCoinDropAmount();
+//            coins = (int) (coins * MathHelper.randomFloatClamp(rand, 1.0f, 3.0f));
+//            if (coins > 0) {
+//                entity.dropItem(LOTRMod.silverCoin, coins);
+//            }
+//        }
     }
 
 

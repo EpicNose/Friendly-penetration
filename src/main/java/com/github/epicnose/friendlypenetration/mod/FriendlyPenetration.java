@@ -2,18 +2,20 @@ package com.github.epicnose.friendlypenetration.mod;
 
 
 import com.github.epicnose.friendlypenetration.client.render.entity.LOTRRenderArrow;
+import com.github.epicnose.friendlypenetration.common.FREventHandler;
 import com.github.epicnose.friendlypenetration.common.entity.item.LOTREntityArrow;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import lotr.common.LOTREventHandler;
 import lotr.common.entity.LOTREntities;
 
 @Mod(modid = "friendlypenetration", name = "LOTR Friendly penetration",version = FriendlyPenetration.VERSION, dependencies = "after:lotr")
 public class FriendlyPenetration {
     public static final String VERSION = "alpha-1.0.4";
-
+    public static FREventHandler modEventHandler;
 
     @SidedProxy(serverSide = "com.github.epicnose.friendlypenetration.mod.FPServerProxy", clientSide = "com.github.epicnose.friendlypenetration.mod.FPClientProxy")
     public static FPServerProxy proxy;
@@ -29,6 +31,7 @@ public class FriendlyPenetration {
     @Mod.EventHandler
     public void preload(FMLPreInitializationEvent event) {
         proxy.preInit();
+        modEventHandler = new FREventHandler();
 //        RenderingRegistry.registerEntityRenderingHandler(LOTREntityArrow.class, new LOTRRenderArrow());
     }
 

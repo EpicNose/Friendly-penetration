@@ -37,10 +37,21 @@ public class LOTRPatcher extends ModPatcher {
 //        this.classes.put("lotr.common.entity.projectile.LOTREntityProjectileBase",(classNode -> patchFriendlyPenetration(classNode)));
 //重制版这里也有bug
 
-
+//        this.classes.put("lotr.common.entity.npc.LOTRHiredNPCInfo",(classNode -> patchLevelUpHealthGain(classNode)));
     }
 
-
+//    private void patchLevelUpHealthGain(ClassNode classNode){
+//        MethodNode method = ASMUtils.findMethod(classNode, "addLevelUpHealthGain", "(Lnet/minecraft/entity/EntityLivingBase;)V");
+//        if(method == null) return;
+//        InsnList instructions = method.instructions;
+//        for (int i = 0; i < instructions.size(); i++) {
+//            AbstractInsnNode insnNode = instructions.get(i);
+//            if (insnNode.getOpcode() == Opcodes.FCONST_1) {
+//                instructions.set(insnNode, new InsnNode(Opcodes.FCONST_2));
+//            }
+//        }
+//        method.instructions=instructions;
+//    }
 
 
     private void getRenderIns(ClassNode classNode){
