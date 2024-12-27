@@ -52,6 +52,15 @@ tasks.withType<Javadoc> {
   */
 }
 
+tasks.jar {
+  manifest {
+    attributes(
+      "FMLCorePluginContainsFMLMod" to true,
+      "FMLCorePlugin" to "com.github.epicnose.friendlypenetration.core.UCPCoreMod"
+    )
+  }
+}
+
 // Most RFG configuration lives here, see the JavaDoc for com.gtnewhorizons.retrofuturagradle.MinecraftExtension
 minecraft {
   mcVersion.set("1.7.10")

@@ -1,4 +1,4 @@
-rootProject.name = "RFGExampleMod"
+rootProject.name = "LOTR-FriendlyPenetration"
 
 pluginManagement {
   repositories {
