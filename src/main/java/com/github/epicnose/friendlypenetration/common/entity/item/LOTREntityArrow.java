@@ -82,6 +82,7 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
         return (float) (speed * damage);
 //        return 0;
     }
+
     @Override
     public void onUpdate() {
         Block block;
@@ -177,48 +178,48 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
 //                    System.out.println("tag1");
                     if (hitEntity instanceof LOTREntityNPC) {
 //                        System.out.println("tag2");
-                        if(shootingEntity!=null){
+                        if (shootingEntity != null) {
                             if (shootingEntity instanceof LOTREntityNPC) {
 
 //                                System.out.println("tag3");
                                 LOTREntityNPC hitlotrnpc = (LOTREntityNPC) hitEntity;
                                 LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
 //                                & !(hitlotrnpc.getFaction().isNeutral(source.getFaction()))
-                                if (hitlotrnpc.getFaction().isGoodRelation(source.getFaction())  ) {
+                                if (hitlotrnpc.getFaction().isGoodRelation(source.getFaction())) {
 //                                if (!hitlotrnpc.getFaction().isBadRelation(source.getFaction())  ) {
 //								System.out.println("test");
-                                    movingobjectposition.entityHit=null;
+                                    movingobjectposition.entityHit = null;
                                     movingobjectposition = null;
-                                    hitEntity=null;
+                                    hitEntity = null;
                                 }
                             }
-                        }else{
-                            movingobjectposition.entityHit=null;
+                        } else {
+                            movingobjectposition.entityHit = null;
                             movingobjectposition = null;
 
-                            hitEntity=null;
+                            hitEntity = null;
                         }
 //                        System.out.println("在地上吗"+shootingEntity.onGround);
 
-                    }else{ //被击中的不是lotrentitynpc  那就再判断是不是主人玩家 或者 击中坐骑的主人是不是友善派系
+                    } else { //被击中的不是lotrentitynpc  那就再判断是不是主人玩家 或击中坐骑的主人是不是友善faction
 //                        FMLLog.info("1");
-                        if(hitEntity instanceof EntityPlayer ){
+                        if (hitEntity instanceof EntityPlayer) {
 //                            FMLLog.info("2");
-                            EntityPlayer p =(EntityPlayer)hitEntity;
-                            if(shootingEntity!=null){
+                            EntityPlayer p = (EntityPlayer) hitEntity;
+                            if (shootingEntity != null) {
 //                                FMLLog.info("3");
                                 if (shootingEntity instanceof LOTREntityNPC) {
 //                                    FMLLog.info("4");
 //                                    EntityPlayer hitlotrnpc = (LOTREntityNPC) hitEntity;
                                     LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
                                     LOTRPlayerData lpd = LOTRLevelData.getData(p);
-                                    if(lpd.getPledgeFaction()!=null)
+                                    if (lpd.getPledgeFaction() != null)
 //                                    if(!source.getFaction().isBadRelation(lpd.getPledgeFaction()) & !source.getFaction().isNeutral(lpd.getPledgeFaction())){
-                                    if(source.getFaction().isGoodRelation(lpd.getPledgeFaction()) ){
-                                            movingobjectposition.entityHit=null;
+                                        if (source.getFaction().isGoodRelation(lpd.getPledgeFaction())) {
+                                            movingobjectposition.entityHit = null;
                                             movingobjectposition = null;
-                                            hitEntity=null;
-                                    }
+                                            hitEntity = null;
+                                        }
 //                                    if(source.hiredNPCInfo.getHiringPlayerUUID()!=null){
 //                                        if(source.hiredNPCInfo.getHiringPlayerUUID().equals(hitEntity.getUniqueID())){
 ////                                        FMLLog.info("5");
@@ -232,13 +233,13 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
 
                                 }
                             }
-                        }else if(hitEntity.riddenByEntity!=null){
+                        } else if (hitEntity.riddenByEntity != null) {
 //                            FMLLog.info("6");
                             Entity rider = hitEntity.riddenByEntity;
-                            if(rider instanceof LOTREntityNPC){ //骑手是npc
+                            if (rider instanceof LOTREntityNPC) { //骑手是npc
 //                                FMLLog.info("7");
                                 LOTREntityNPC riderhit = (LOTREntityNPC) rider;
-                                if(shootingEntity!=null){
+                                if (shootingEntity != null) {
 //                                    FMLLog.info("8");
                                     if (shootingEntity instanceof LOTREntityNPC) {
 //                                        FMLLog.info("9");
@@ -247,36 +248,36 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
                                         if (!riderhit.getFaction().isBadRelation(source.getFaction())) {
 //                                            FMLLog.info("10");
 //								System.out.println("test");
-                                            movingobjectposition.entityHit=null;
+                                            movingobjectposition.entityHit = null;
                                             movingobjectposition = null;
-                                            hitEntity=null;
+                                            hitEntity = null;
 //                                            FMLLog.info("击中的是友军Npc坐骑");
 //                                            System.out.println();
                                         }
                                     }
                                 }
-                            }else if(rider instanceof EntityPlayer){ //骑手是玩家
+                            } else if (rider instanceof EntityPlayer) { //骑手是玩家a
 //                                FMLLog.info("11");
 //                                if(hitEntity instanceof EntityPlayer ){
-                                    if(shootingEntity!=null){
+                                if (shootingEntity != null) {
 //                                        FMLLog.info("12");
-                                        if (shootingEntity instanceof LOTREntityNPC) {
+                                    if (shootingEntity instanceof LOTREntityNPC) {
 //                                            FMLLog.info("13");
 //                                    EntityPlayer hitlotrnpc = (LOTREntityNPC) hitEntity;
-                                            EntityPlayer p =(EntityPlayer) rider;
-                                            LOTRPlayerData lpd=LOTRLevelData.getData(p);
-                                            LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
-                                            if(lpd.getPledgeFaction()!=null)
-                                                if(!source.getFaction().isBadRelation(lpd.getPledgeFaction())){
+                                        EntityPlayer p = (EntityPlayer) rider;
+                                        LOTRPlayerData lpd = LOTRLevelData.getData(p);
+                                        LOTREntityNPC source = (LOTREntityNPC) shootingEntity;
+                                        if (lpd.getPledgeFaction() != null)
+                                            if (!source.getFaction().isBadRelation(lpd.getPledgeFaction())) {
 //                                                    FMLLog.info("14");
-                                                    movingobjectposition.entityHit=null;
-                                                    movingobjectposition = null;
-                                                    hitEntity=null;
+                                                movingobjectposition.entityHit = null;
+                                                movingobjectposition = null;
+                                                hitEntity = null;
 //                                                    FMLLog.info("击中的是玩家坐骑");
 //                                                    System.out.println();
-                                                }
-                                        }
+                                            }
                                     }
+                                }
                             }
 
                         }
@@ -296,10 +297,10 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
                     if (getIsCritical()) {
                         damageInt += rand.nextInt(damageInt / 2 + 2);
                     }
-                    double[] prevMotion = { hitEntity.motionX, hitEntity.motionY, hitEntity.motionZ };
+                    double[] prevMotion = {hitEntity.motionX, hitEntity.motionY, hitEntity.motionZ};
                     DamageSource damagesource = getDamageSource();
                     if (hitEntity.attackEntityFrom(damagesource, damageInt)) {
-                        double[] newMotion = { hitEntity.motionX, hitEntity.motionY, hitEntity.motionZ };
+                        double[] newMotion = {hitEntity.motionX, hitEntity.motionY, hitEntity.motionZ};
                         float kbf = getKnockbackFactor();
                         hitEntity.motionX = prevMotion[0] + (newMotion[0] - prevMotion[0]) * kbf;
                         hitEntity.motionY = prevMotion[1] + (newMotion[1] - prevMotion[1]) * kbf;
@@ -335,7 +336,7 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
                         ticksInAir = 0;
                     }
                 } else {
-                    if(movingobjectposition!=null){
+                    if (movingobjectposition != null) {
                         xTile = movingobjectposition.blockX;
                         yTile = movingobjectposition.blockY;
                         zTile = movingobjectposition.blockZ;
@@ -395,11 +396,12 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
             motionX *= f4;
             motionY *= f4;
             motionZ *= f4;
-            motionY -= 0.050000000074505806; //原来是 0.05
+            motionY -= 0.050000000074505806; //原来0.05
             setPosition(posX, posY, posZ);
             func_145775_I();
         }
     }
+
     public LOTREntityArrow(World world) {
         super(world);
     }
@@ -411,7 +413,7 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
     }
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound nbt) {
+    public void readEntityFromNBT(NBTTagCompound nbt) {
         xTile = nbt.getInteger("xTile");
         yTile = nbt.getInteger("yTile");
         zTile = nbt.getInteger("zTile");
@@ -433,7 +435,7 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
     }
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound nbt) {
+    public void writeEntityToNBT(NBTTagCompound nbt) {
         nbt.setInteger("xTile", xTile);
         nbt.setInteger("yTile", yTile);
         nbt.setInteger("zTile", zTile);
@@ -470,9 +472,10 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
             setLocationAndAngles(entityliving.posX + d4, posY, entityliving.posZ + d5, f, f1);
             yOffset = 0.0f;
             float d6 = (float) d3 * 0.2f;
-            setThrowableHeading(d, d1 + d6, d2, charge * 1.5f , inaccuracy); //这里charge *1.5 去掉了这个倍数
+            setThrowableHeading(d, d1 + d6, d2, charge * 1.5f, inaccuracy); //这里charge *1.5 去掉了这个a倍数a
         }
     }
+
     public LOTREntityArrow(World world, EntityLivingBase entityliving, EntityLivingBase target, float charge, float inaccuracy) {
         super(world);
         setProjectileItem(new ItemStack(Items.arrow));
@@ -494,9 +497,10 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
             setLocationAndAngles(entityliving.posX + d4, posY, entityliving.posZ + d5, f, f1);
             yOffset = 0.0f;
             float d6 = (float) d3 * 0.2f;
-            setThrowableHeading(d, d1 + d6, d2, charge * 1.5f, inaccuracy);//这里charge *1.5 去掉了这个倍数
+            setThrowableHeading(d, d1 + d6, d2, charge * 1.5f, inaccuracy);//这里charge *1.5 去掉了这个a倍数a
         }
     }
+
     public LOTREntityArrow(EntityLivingBase entityliving, EntityLivingBase target, float charge, float inaccuracy) {
         super(entityliving.worldObj);
         setProjectileItem(new ItemStack(Items.arrow));
@@ -529,6 +533,7 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
     public LOTREntityArrow(World world, ItemStack item, double d, double d1, double d2) {
         super(world, item, d, d1, d2);
     }
+
     public static void applyLOTRBowModifiers(LOTREntityArrow arrow, ItemStack itemstack) {
         int power = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, itemstack);
         if (power > 0) {
@@ -560,13 +565,14 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
         d1 += rand.nextGaussian() * 0.0075 * f1;
         d2 += rand.nextGaussian() * 0.0075 * f1;
         motionX = d *= f;
-        motionY = d1 *= f*0.6; //这里对y乘了个0.6
+        motionY = d1 *= f * 0.6; //这里对y乘了个float0.6
         motionZ = d2 *= f;
         float f3 = MathHelper.sqrt_double(d * d + d2 * d2);
         prevRotationYaw = rotationYaw = (float) (Math.atan2(d, d2) * 180.0 / 3.141592653589793);
         prevRotationPitch = rotationPitch = (float) (Math.atan2(d1, f3) * 180.0 / 3.141592653589793);
         ticksInGround = 0;
     }
+
     @Override
     public int maxTicksInGround() {
 //		return canBePickedUp == 1 ? 6000 : 1200;
@@ -577,11 +583,11 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
     @Override
     public void onKillEntity(EntityLivingBase entity) {
         super.onKillEntity(entity);
-        if(this.shootingEntity !=null) {
+        if (this.shootingEntity != null) {
             if (this.shootingEntity instanceof LOTREntityNPC) {
                 LOTREntityNPC shooter = (LOTREntityNPC) this.shootingEntity;
-                if(shooter.hiredNPCInfo!=null)
-                shooter.hiredNPCInfo.onKillEntity(entity);
+                if (shooter.hiredNPCInfo != null)
+                    shooter.hiredNPCInfo.onKillEntity(entity);
 //            if (shooter.lootsExtraCoins() && !worldObj.isRemote && entity instanceof LOTREntityNPC && ((LOTREntityNPC) entity).canDropRares() && rand.nextInt(2) == 0) {
 //                int coins = shooter.getRandomCoinDropAmount();
 //                coins = (int) (coins * MathHelper.randomFloatClamp(rand, 1.0f, 3.0f));
@@ -590,11 +596,11 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
 //                }
 //            }
                 LOTREntityInvasionSpawner invasion;
-                if(entity instanceof LOTREntityNPC){
-                    LOTREntityNPC target = (LOTREntityNPC)entity;
-                    if(shooter.hiredNPCInfo.getHiringPlayer() != null){
+                if (entity instanceof LOTREntityNPC) {
+                    LOTREntityNPC target = (LOTREntityNPC) entity;
+                    if (shooter.hiredNPCInfo.getHiringPlayer() != null) {
                         EntityPlayer entityplayer = shooter.hiredNPCInfo.getHiringPlayer();
-                        if (!worldObj.isRemote && target.isInvasionSpawned()  && (invasion = LOTREntityInvasionSpawner.locateInvasionNearby(this, target.getInvasionID())) != null) {
+                        if (!worldObj.isRemote && target.isInvasionSpawned() && (invasion = LOTREntityInvasionSpawner.locateInvasionNearby(this, target.getInvasionID())) != null) {
                             invasion.addPlayerKill(entityplayer);
 //                            if (damagesource.getEntity() == entityplayer) {
 //                                invasion.setWatchingInvasion((EntityPlayerMP) entityplayer, true);
@@ -618,7 +624,6 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
 //            }
 //        }
     }
-
 
 
 }
