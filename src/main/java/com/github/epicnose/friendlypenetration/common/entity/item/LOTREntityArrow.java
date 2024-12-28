@@ -33,6 +33,7 @@ import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class LOTREntityArrow extends LOTREntityProjectileBase {
@@ -547,7 +548,30 @@ public class LOTREntityArrow extends LOTREntityProjectileBase {
         if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, itemstack) + LOTREnchantmentHelper.calcFireAspect(itemstack) > 0) {
             arrow.setFire(100);
         }
-        for (LOTREnchantment ench : LOTREnchantment.allEnchantments) {
+        // 获取 LOTREnchantment 类对象
+        Class<?> enchantmentClass = null;
+        try {
+            enchantmentClass = Class.forName("lotr.common.enchant.LOTREnchantment");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        // 获取 allEnchantments 字段
+        Field allEnchantmentsField = null;
+        try {
+            allEnchantmentsField = enchantmentClass.getDeclaredField("allEnchantments");
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+
+        // 获取字段的值（假设是一个 Collection 或 Iterable）
+        List<LOTREnchantment> allEnchantments;
+        try {
+            allEnchantments = (List<LOTREnchantment>) allEnchantmentsField.get(null);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        for (LOTREnchantment ench : allEnchantments) {
             if (!ench.applyToProjectile() || !LOTREnchantmentHelper.hasEnchant(itemstack, ench)) {
                 continue;
             }
