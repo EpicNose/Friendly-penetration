@@ -1,12 +1,13 @@
 [
-{
+ {
   "modid": "friendlypenetration",
   "name": "LOTR Friendly penetration",
+  "version": "${modVersion}",
+  "mcversion": "1.7.10",
   "description": "Friendly penetration.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
+  "url": "https://github.com/EpicNose/Friendly-penetration",
   "authorList": ["Epic_Nose"],
-  "credits": "Based on lotrucpcore"
+  "credits": "Based on lotrucpcore",
+    "dependencies": []
 }
 ]
